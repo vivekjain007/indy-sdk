@@ -1,10 +1,10 @@
-use settings;
+use crate::settings;
 use std::io::Read;
 use std::sync::Mutex;
-use reqwest;
-use reqwest::header::CONTENT_TYPE;
+use crate::reqwest;
+use crate::reqwest::header::CONTENT_TYPE;
 use std::env;
-use error::prelude::*;
+use crate::error::prelude::*;
 
 lazy_static! {
     static ref AGENCY_MOCK: Mutex<AgencyMock> = Mutex::new(AgencyMock::default());
@@ -43,7 +43,7 @@ pub fn post_message(body_content: &Vec<u8>, url: &str) -> VcxResult<Vec<u8>> {
         info!("::Android code");
         set_ssl_cert_location();
     }
-    let client = reqwest::ClientBuilder::new().timeout(::utils::timeout::TimeoutUtils::long_timeout()).build()
+    let client = reqwest::ClientBuilder::new().timeout(crate::utils::timeout::TimeoutUtils::long_timeout()).build()
         .or(Err(VcxError::from_msg(VcxErrorKind::PostMessageFailed, "Preparing Post failed")))?;
     debug!("Posting encrypted bundle to: \"{}\"", url);
 

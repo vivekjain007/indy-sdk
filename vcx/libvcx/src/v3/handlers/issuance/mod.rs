@@ -3,14 +3,14 @@ pub mod states;
 pub mod messages;
 pub mod holder;
 
-use error::prelude::*;
-use v3::messages::a2a::A2AMessage;
-use v3::handlers::issuance::issuer::IssuerSM;
-use v3::handlers::issuance::messages::CredentialIssuanceMessage;
-use v3::handlers::issuance::holder::HolderSM;
-use v3::messages::issuance::credential::Credential;
-use v3::messages::issuance::credential_offer::CredentialOffer;
-use connection;
+use crate::error::prelude::*;
+use crate::v3::messages::a2a::A2AMessage;
+use crate::v3::handlers::issuance::issuer::IssuerSM;
+use crate::v3::handlers::issuance::messages::CredentialIssuanceMessage;
+use crate::v3::handlers::issuance::holder::HolderSM;
+use crate::v3::messages::issuance::credential::Credential;
+use crate::v3::messages::issuance::credential_offer::CredentialOffer;
+use crate::connection;
 
 // Issuer
 
@@ -23,9 +23,9 @@ impl Issuer {
     pub fn create(cred_def_handle: u32, credential_data: &str, source_id: &str) -> VcxResult<Issuer> {
         trace!("Issuer::issuer_create_credential >>> cred_def_handle: {:?}, credential_data: {:?}, source_id: {:?}", cred_def_handle, credential_data, source_id);
 
-        let cred_def_id = ::credential_def::get_cred_def_id(cred_def_handle)?;
-        let rev_reg_id = ::credential_def::get_rev_reg_id(cred_def_handle)?;
-        let tails_file = ::credential_def::get_tails_file(cred_def_handle)?;
+        let cred_def_id = crate::credential_def::get_cred_def_id(cred_def_handle)?;
+        let rev_reg_id = crate::credential_def::get_rev_reg_id(cred_def_handle)?;
+        let tails_file = crate::credential_def::get_tails_file(cred_def_handle)?;
         let issuer_sm = IssuerSM::new(&cred_def_id, credential_data, rev_reg_id, tails_file, source_id);
         Ok(Issuer { issuer_sm })
     }

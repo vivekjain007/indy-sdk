@@ -3,10 +3,10 @@ extern crate openssl;
 
 use self::openssl::bn::BigNum;
 use self::rust_base58::FromBase58;
-use utils::qualifier;
-use url::Url;
-use error::prelude::*;
-use settings::Actors;
+use crate::utils::qualifier;
+use crate::url::Url;
+use crate::error::prelude::*;
+use crate::settings::Actors;
 
 pub fn validate_did(did: &str) -> VcxResult<String> {
     if qualifier::is_fully_qualified(did) {

@@ -4,13 +4,13 @@ use serde_json::{map::Map, Value};
 use indy::{anoncreds, blob_storage, ledger};
 use time;
 
-use settings;
-use utils::constants::{LIBINDY_CRED_OFFER, REQUESTED_ATTRIBUTES, PROOF_REQUESTED_PREDICATES, ATTRS, REV_STATE_JSON};
-use utils::libindy::{wallet::get_wallet_handle, LibindyMock};
-use utils::libindy::payments::{send_transaction, PaymentTxn};
-use utils::libindy::ledger::*;
-use utils::constants::{SCHEMA_ID, SCHEMA_JSON, SCHEMA_TXN, CREATE_SCHEMA_ACTION, CRED_DEF_ID, CRED_DEF_JSON, CRED_DEF_REQ, CREATE_CRED_DEF_ACTION, CREATE_REV_REG_DEF_ACTION, CREATE_REV_REG_DELTA_ACTION, REVOC_REG_TYPE, rev_def_json, REV_REG_ID, REV_REG_DELTA_JSON, REV_REG_JSON};
-use error::prelude::*;
+use crate::settings;
+use crate::utils::constants::{LIBINDY_CRED_OFFER, REQUESTED_ATTRIBUTES, PROOF_REQUESTED_PREDICATES, ATTRS, REV_STATE_JSON};
+use crate::utils::libindy::{wallet::get_wallet_handle, LibindyMock};
+use crate::utils::libindy::payments::{send_transaction, PaymentTxn};
+use crate::utils::libindy::ledger::*;
+use crate::utils::constants::{SCHEMA_ID, SCHEMA_JSON, SCHEMA_TXN, CREATE_SCHEMA_ACTION, CRED_DEF_ID, CRED_DEF_JSON, CRED_DEF_REQ, CREATE_CRED_DEF_ACTION, CREATE_REV_REG_DEF_ACTION, CREATE_REV_REG_DELTA_ACTION, REVOC_REG_TYPE, rev_def_json, REV_REG_ID, REV_REG_DELTA_JSON, REV_REG_JSON};
+use crate::error::prelude::*;
 
 const BLOB_STORAGE_TYPE: &str = "default";
 const REVOCATION_REGISTRY_TYPE: &str = "ISSUANCE_BY_DEFAULT";
@@ -85,7 +85,7 @@ pub fn libindy_issuer_create_credential(cred_offer_json: &str,
                                         cred_values_json: &str,
                                         rev_reg_id: Option<String>,
                                         tails_file: Option<String>) -> VcxResult<(String, Option<String>, Option<String>)> {
-    if settings::indy_mocks_enabled() { return Ok((::utils::constants::CREDENTIAL_JSON.to_owned(), None, None)); }
+    if settings::indy_mocks_enabled() { return Ok((crate::utils::constants::CREDENTIAL_JSON.to_owned(), None, None)); }
 
     let revocation = rev_reg_id.as_ref().map(String::as_str);
 
@@ -109,7 +109,7 @@ pub fn libindy_prover_create_proof(proof_req_json: &str,
                                    schemas_json: &str,
                                    credential_defs_json: &str,
                                    revoc_states_json: Option<&str>) -> VcxResult<String> {
-    if settings::indy_mocks_enabled() { return Ok(::utils::constants::PROOF_JSON.to_owned()); }
+    if settings::indy_mocks_enabled() { return Ok(crate::utils::constants::PROOF_JSON.to_owned()); }
 
     let revoc_states_json = revoc_states_json.unwrap_or("{}");
     anoncreds::prover_create_proof(get_wallet_handle(),
@@ -199,7 +199,7 @@ pub fn libindy_prover_get_credentials_for_proof_req(proof_req: &str) -> VcxResul
 pub fn libindy_prover_create_credential_req(prover_did: &str,
                                             credential_offer_json: &str,
                                             credential_def_json: &str) -> VcxResult<(String, String)> {
-    if settings::indy_mocks_enabled() { return Ok((::utils::constants::CREDENTIAL_REQ_STRING.to_owned(), String::new())); }
+    if settings::indy_mocks_enabled() { return Ok((crate::utils::constants::CREDENTIAL_REQ_STRING.to_owned(), String::new())); }
 
     let master_secret_name = settings::DEFAULT_LINK_SECRET_ALIAS;
     anoncreds::prover_create_credential_req(get_wallet_handle(),
@@ -379,7 +379,7 @@ pub fn build_schema_request(schema: &str) -> VcxResult<String> {
 pub fn publish_schema(schema: &str) -> VcxResult<Option<PaymentTxn>> {
     if settings::indy_mocks_enabled() {
         let inputs = vec!["pay:null:9UFgyjuJxi1i1HD".to_string()];
-        let outputs = serde_json::from_str::<Vec<::utils::libindy::payments::Output>>(r#"[{"amount":4,"extra":null,"recipient":"pay:null:xkIsxem0YNtHrRO"}]"#).unwrap();
+        let outputs = serde_json::from_str::<Vec<crate::utils::libindy::payments::Output>>(r#"[{"amount":4,"extra":null,"recipient":"pay:null:xkIsxem0YNtHrRO"}]"#).unwrap();
         return Ok(Some(PaymentTxn::from_parts(inputs, outputs, 1, false)));
     }
 
@@ -435,7 +435,7 @@ pub fn build_cred_def_request(issuer_did: &str, cred_def_json: &str) -> VcxResul
 pub fn publish_cred_def(issuer_did: &str, cred_def_json: &str) -> VcxResult<Option<PaymentTxn>> {
     if settings::indy_mocks_enabled() {
         let inputs = vec!["pay:null:9UFgyjuJxi1i1HD".to_string()];
-        let outputs = serde_json::from_str::<Vec<::utils::libindy::payments::Output>>(r#"[{"amount":4,"extra":null,"recipient":"pay:null:xkIsxem0YNtHrRO"}]"#).unwrap();
+        let outputs = serde_json::from_str::<Vec<crate::utils::libindy::payments::Output>>(r#"[{"amount":4,"extra":null,"recipient":"pay:null:xkIsxem0YNtHrRO"}]"#).unwrap();
         return Ok(Some(PaymentTxn::from_parts(inputs, outputs, 1, false)));
     }
 
@@ -532,7 +532,7 @@ pub fn get_rev_reg(rev_reg_id: &str, timestamp: u64) -> VcxResult<(String, Strin
 pub fn revoke_credential(tails_file: &str, rev_reg_id: &str, cred_rev_id: &str) -> VcxResult<(Option<PaymentTxn>, String)> {
     if settings::indy_mocks_enabled() {
         let inputs = vec!["pay:null:9UFgyjuJxi1i1HD".to_string()];
-        let outputs = serde_json::from_str::<Vec<::utils::libindy::payments::Output>>(r#"[{"amount":4,"extra":null,"recipient":"pay:null:xkIsxem0YNtHrRO"}]"#).unwrap();
+        let outputs = serde_json::from_str::<Vec<crate::utils::libindy::payments::Output>>(r#"[{"amount":4,"extra":null,"recipient":"pay:null:xkIsxem0YNtHrRO"}]"#).unwrap();
         return Ok((Some(PaymentTxn::from_parts(inputs, outputs, 1, false)), REV_REG_DELTA_JSON.to_string()));
     }
 

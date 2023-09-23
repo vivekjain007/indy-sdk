@@ -9,12 +9,12 @@ pub const SERIALIZE_VERSION: &'static str = "2.0";
 pub mod test {
     use rand;
     use rand::Rng;
-    use utils::devsetup::*;
-    use messages::agent_utils::connect_register_provision;
-    use utils::libindy::wallet::*;
-    use indy_sys::WalletHandle;
-    use utils::plugins::init_plugin;
-    use messages::payload::PayloadV1;
+    use crate::utils::devsetup::*;
+    use crate::messages::agent_utils::connect_register_provision;
+    use crate::utils::libindy::wallet::*;
+    use crate::indy_sys::WalletHandle;
+    use crate::utils::plugins::init_plugin;
+    use crate::messages::payload::PayloadV1;
 
     pub fn source_id() -> String {
         String::from("test source id")

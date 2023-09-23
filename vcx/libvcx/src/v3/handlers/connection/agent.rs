@@ -1,21 +1,21 @@
-use messages::update_message::{UIDsByConn, update_messages as update_messages_status};
-use messages::MessageStatusCode;
-use messages::get_message::{Message, get_connection_messages};
-use messages::update_connection::send_delete_connection_message;
+use crate::messages::update_message::{UIDsByConn, update_messages as update_messages_status};
+use crate::messages::MessageStatusCode;
+use crate::messages::get_message::{Message, get_connection_messages};
+use crate::messages::update_connection::send_delete_connection_message;
 
-use v3::messages::connection::did_doc::DidDoc;
-use v3::messages::a2a::A2AMessage;
+use crate::v3::messages::connection::did_doc::DidDoc;
+use crate::v3::messages::a2a::A2AMessage;
 
-use v3::utils::encryption_envelope::EncryptionEnvelope;
+use crate::v3::utils::encryption_envelope::EncryptionEnvelope;
 
 use std::collections::HashMap;
 
-use connection::create_agent_keys;
-use utils::httpclient;
-use utils::libindy::signus::create_and_store_my_did;
-use settings;
-use error::prelude::*;
-use settings::ProtocolTypes;
+use crate::connection::create_agent_keys;
+use crate::utils::httpclient;
+use crate::utils::libindy::signus::create_and_store_my_did;
+use crate::settings;
+use crate::error::prelude::*;
+use crate::settings::ProtocolTypes;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AgentInfo {

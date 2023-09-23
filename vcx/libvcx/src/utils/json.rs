@@ -4,7 +4,7 @@ extern crate serde_json;
 use serde_json::Value;
 use serde_json::Map;
 use std::string::String;
-use error::prelude::*;
+use crate::error::prelude::*;
 
 pub trait KeyMatch {
     fn matches(&self, key: &String, context: &Vec<String>) -> bool;

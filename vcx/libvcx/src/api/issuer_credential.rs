@@ -1,14 +1,14 @@
 use serde_json;
 use libc::c_char;
-use utils::cstring::CStringUtils;
-use utils::error;
-use connection;
-use settings;
-use issuer_credential;
+use crate::utils::cstring::CStringUtils;
+use crate::utils::error;
+use crate::connection;
+use crate::settings;
+use crate::issuer_credential;
 use std::ptr;
-use utils::threadpool::spawn;
-use error::prelude::*;
-use indy_sys::CommandHandle;
+use crate::utils::threadpool::spawn;
+use crate::error::prelude::*;
+use crate::indy_sys::CommandHandle;
 
 /*
     The API represents an Issuer side in credential issuance process.
@@ -138,11 +138,11 @@ pub extern fn vcx_issuer_create_credential(command_handle: CommandHandle,
         Err(err) => return VcxError::from_msg(VcxErrorKind::InvalidOption, format!("Cannot parse price: {}", err)).into(),
     };
 
-    if !::credential_def::is_valid_handle(cred_def_handle) {
+    if !crate::credential_def::is_valid_handle(cred_def_handle) {
         return VcxError::from(VcxErrorKind::InvalidCredDefHandle).into()
     }
 
-    if !::credential_def::check_is_published(cred_def_handle).unwrap_or(false) {
+    if !crate::credential_def::check_is_published(cred_def_handle).unwrap_or(false) {
         return VcxError::from_msg(VcxErrorKind::InvalidCredDefHandle, "Credential Definition is not in the Published State yet").into()
     }
 

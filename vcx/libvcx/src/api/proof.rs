@@ -1,12 +1,12 @@
 use libc::c_char;
-use utils::cstring::CStringUtils;
-use utils::error;
-use proof;
-use connection;
+use crate::utils::cstring::CStringUtils;
+use crate::utils::error;
+use crate::proof;
+use crate::connection;
 use std::ptr;
-use utils::threadpool::spawn;
-use error::prelude::*;
-use indy_sys::CommandHandle;
+use crate::utils::threadpool::spawn;
+use crate::error::prelude::*;
+use crate::indy_sys::CommandHandle;
 
 /*
     APIs in this module are called by a verifier throughout the request-proof-and-verify process.

@@ -1,7 +1,7 @@
 use serde_json;
 use serde_json::Value;
-use error::prelude::*;
-use api::VcxStateType;
+use crate::error::prelude::*;
+use crate::api::VcxStateType;
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct ProofMessage {

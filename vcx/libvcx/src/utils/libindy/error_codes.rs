@@ -2,9 +2,9 @@ extern crate num_traits;
 
 use self::num_traits::int::PrimInt;
 
-use indy::IndyError;
-use utils::error;
-use error::prelude::{VcxError, VcxErrorKind};
+use crate::indy::IndyError;
+use crate::utils::error;
+use crate::error::prelude::{VcxError, VcxErrorKind};
 
 impl From<IndyError> for VcxError {
     fn from(error: IndyError) -> Self {

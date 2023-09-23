@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::sync::Mutex;
-use utils::source::to_source;
-use utils::source::from_source;
+use crate::utils::source::to_source;
+use crate::utils::source::from_source;
 
 lazy_static! {
     static ref SOURCES: Mutex<HashMap<String, Vec<String>>> = Default::default();

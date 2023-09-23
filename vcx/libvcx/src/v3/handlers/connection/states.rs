@@ -1,23 +1,23 @@
-use api::VcxStateType;
+use crate::api::VcxStateType;
 
-use v3::handlers::connection::messages::DidExchangeMessages;
-use v3::messages::a2a::A2AMessage;
-use v3::handlers::connection::agent::AgentInfo;
-use v3::messages::connection::invite::Invitation;
-use v3::messages::connection::request::Request;
-use v3::messages::connection::response::{Response, SignedResponse};
-use v3::messages::connection::problem_report::{ProblemReport, ProblemCode};
-use v3::messages::trust_ping::ping::Ping;
-use v3::messages::trust_ping::ping_response::PingResponse;
-use v3::messages::ack::Ack;
-use v3::messages::connection::did_doc::DidDoc;
-use v3::messages::discovery::query::Query;
-use v3::messages::discovery::disclose::{Disclose, ProtocolDescriptor};
-use v3::messages::a2a::protocol_registry::ProtocolRegistry;
+use crate::v3::handlers::connection::messages::DidExchangeMessages;
+use crate::v3::messages::a2a::A2AMessage;
+use crate::v3::handlers::connection::agent::AgentInfo;
+use crate::v3::messages::connection::invite::Invitation;
+use crate::v3::messages::connection::request::Request;
+use crate::v3::messages::connection::response::{Response, SignedResponse};
+use crate::v3::messages::connection::problem_report::{ProblemReport, ProblemCode};
+use crate::v3::messages::trust_ping::ping::Ping;
+use crate::v3::messages::trust_ping::ping_response::PingResponse;
+use crate::v3::messages::ack::Ack;
+use crate::v3::messages::connection::did_doc::DidDoc;
+use crate::v3::messages::discovery::query::Query;
+use crate::v3::messages::discovery::disclose::{Disclose, ProtocolDescriptor};
+use crate::v3::messages::a2a::protocol_registry::ProtocolRegistry;
 
 use std::collections::HashMap;
 
-use error::prelude::*;
+use crate::error::prelude::*;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DidExchangeSM {

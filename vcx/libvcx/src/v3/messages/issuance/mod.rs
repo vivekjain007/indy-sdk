@@ -1,7 +1,7 @@
-use v3::messages::a2a::message_type::MessageType;
-use v3::messages::a2a::message_family::MessageFamilies;
-use v3::messages::mime_type::MimeType;
-use error::VcxResult;
+use crate::v3::messages::a2a::message_type::MessageType;
+use crate::v3::messages::a2a::message_family::MessageFamilies;
+use crate::v3::messages::mime_type::MimeType;
+use crate::error::VcxResult;
 
 pub mod credential;
 pub mod credential_offer;

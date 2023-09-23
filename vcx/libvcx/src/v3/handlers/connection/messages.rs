@@ -1,13 +1,13 @@
-use v3::messages::connection::invite::Invitation;
-use v3::messages::connection::request::Request;
-use v3::messages::connection::response::SignedResponse;
-use v3::messages::connection::problem_report::ProblemReport;
-use v3::messages::trust_ping::ping::Ping;
-use v3::messages::trust_ping::ping_response::PingResponse;
-use v3::messages::ack::Ack;
-use v3::messages::discovery::query::Query;
-use v3::messages::discovery::disclose::Disclose;
-use v3::messages::a2a::A2AMessage;
+use crate::v3::messages::connection::invite::Invitation;
+use crate::v3::messages::connection::request::Request;
+use crate::v3::messages::connection::response::SignedResponse;
+use crate::v3::messages::connection::problem_report::ProblemReport;
+use crate::v3::messages::trust_ping::ping::Ping;
+use crate::v3::messages::trust_ping::ping_response::PingResponse;
+use crate::v3::messages::ack::Ack;
+use crate::v3::messages::discovery::query::Query;
+use crate::v3::messages::discovery::disclose::Disclose;
+use crate::v3::messages::a2a::A2AMessage;
 
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

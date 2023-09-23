@@ -1,16 +1,16 @@
-use messages::get_message::Message;
-use error::prelude::*;
+use crate::messages::get_message::Message;
+use crate::error::prelude::*;
 
-use v3::handlers::connection::states::{DidExchangeSM, Actor, ActorDidExchangeState};
-use v3::handlers::connection::messages::DidExchangeMessages;
-use v3::handlers::connection::agent::AgentInfo;
-use v3::messages::a2a::A2AMessage;
-use v3::messages::connection::invite::Invitation;
+use crate::v3::handlers::connection::states::{DidExchangeSM, Actor, ActorDidExchangeState};
+use crate::v3::handlers::connection::messages::DidExchangeMessages;
+use crate::v3::handlers::connection::agent::AgentInfo;
+use crate::v3::messages::a2a::A2AMessage;
+use crate::v3::messages::connection::invite::Invitation;
 
 use std::collections::HashMap;
-use v3::messages::connection::did_doc::DidDoc;
-use v3::messages::basic_message::message::BasicMessage;
-use v3::messages::discovery::disclose::ProtocolDescriptor;
+use crate::v3::messages::connection::did_doc::DidDoc;
+use crate::v3::messages::basic_message::message::BasicMessage;
+use crate::v3::messages::discovery::disclose::ProtocolDescriptor;
 
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -153,7 +153,7 @@ impl Connection {
     pub fn decode_message(&self, message: &Message) -> VcxResult<A2AMessage> {
         match message.decrypted_payload {
             Some(ref payload) => {
-                let message: ::messages::payload::PayloadV1 = ::serde_json::from_str(&payload)
+                let message: crate::messages::payload::PayloadV1 = ::serde_json::from_str(&payload)
                     .map_err(|err| VcxError::from_msg(VcxErrorKind::InvalidJson, format!("Cannot deserialize message: {}", err)))?;
 
                 ::serde_json::from_str::<A2AMessage>(&message.msg)

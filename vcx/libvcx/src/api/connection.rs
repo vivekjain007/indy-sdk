@@ -1,12 +1,12 @@
 use libc::c_char;
-use utils::cstring::CStringUtils;
-use utils::error;
-use utils::threadpool::spawn;
+use crate::utils::cstring::CStringUtils;
+use crate::utils::error;
+use crate::utils::threadpool::spawn;
 use std::ptr;
-use connection::*;
-use error::prelude::*;
-use messages::get_message::Message;
-use indy_sys::CommandHandle;
+use crate::connection::*;
+use crate::error::prelude::*;
+use crate::messages::get_message::Message;
+use crate::indy_sys::CommandHandle;
 
 /*
     Tha API represents a pairwise connection with another identity owner.
@@ -932,18 +932,18 @@ pub extern fn vcx_connection_sign_data(command_handle: CommandHandle,
         return VcxError::from(VcxErrorKind::InvalidConnectionHandle).into();
     }
 
-    let vk = match ::connection::get_pw_verkey(connection_handle) {
+    let vk = match crate::connection::get_pw_verkey(connection_handle) {
         Ok(x) => x,
         Err(e) => return e.into(),
     };
 
     spawn(move || {
-        match ::utils::libindy::crypto::sign(&vk, &data_raw) {
+        match crate::utils::libindy::crypto::sign(&vk, &data_raw) {
             Ok(x) => {
                 trace!("vcx_connection_sign_data_cb(command_handle: {}, connection_handle: {}, rc: {}, signature: {:?})",
                        command_handle, connection_handle, error::SUCCESS.message, x);
 
-                let (signature_raw, signature_len) = ::utils::cstring::vec_to_pointer(&x);
+                let (signature_raw, signature_len) = crate::utils::cstring::vec_to_pointer(&x);
                 cb(command_handle, error::SUCCESS.code_num, signature_raw, signature_len);
             }
             Err(e) => {
@@ -1012,13 +1012,13 @@ pub extern fn vcx_connection_verify_signature(command_handle: CommandHandle,
         return VcxError::from(VcxErrorKind::InvalidConnectionHandle).into();
     }
 
-    let vk = match ::connection::get_their_pw_verkey(connection_handle) {
+    let vk = match crate::connection::get_their_pw_verkey(connection_handle) {
         Ok(x) => x,
         Err(e) => return e.into(),
     };
 
     spawn(move || {
-        match ::utils::libindy::crypto::verify(&vk, &data_raw, &signature_raw) {
+        match crate::utils::libindy::crypto::verify(&vk, &data_raw, &signature_raw) {
             Ok(x) => {
                 trace!("vcx_connection_verify_signature_cb(command_handle: {}, rc: {}, valid: {})",
                        command_handle, error::SUCCESS.message, x);

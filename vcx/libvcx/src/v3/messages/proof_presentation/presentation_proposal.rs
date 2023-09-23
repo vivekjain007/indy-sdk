@@ -1,8 +1,8 @@
-use v3::messages::a2a::{A2AMessage, MessageId};
-use v3::messages::a2a::message_type::MessageType;
-use v3::messages::a2a::message_family::MessageFamilies;
-use v3::messages::mime_type::MimeType;
-use messages::thread::Thread;
+use crate::v3::messages::a2a::{A2AMessage, MessageId};
+use crate::v3::messages::a2a::message_type::MessageType;
+use crate::v3::messages::a2a::message_family::MessageFamilies;
+use crate::v3::messages::mime_type::MimeType;
+use crate::messages::thread::Thread;
 
 #[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Default)]
 pub struct PresentationProposal {

@@ -1,14 +1,14 @@
 use libc::c_char;
-use utils::cstring::CStringUtils;
-use utils::error;
-use utils::libindy::payments::{pay_a_payee, get_wallet_token_info, create_address, sign_with_address, verify_with_address};
-use utils::libindy::wallet::{export, import, get_wallet_handle};
-use utils::libindy::wallet;
-use utils::threadpool::spawn;
+use crate::utils::cstring::CStringUtils;
+use crate::utils::error;
+use crate::utils::libindy::payments::{pay_a_payee, get_wallet_token_info, create_address, sign_with_address, verify_with_address};
+use crate::utils::libindy::wallet::{export, import, get_wallet_handle};
+use crate::utils::libindy::wallet;
+use crate::utils::threadpool::spawn;
 use std::thread;
 use std::ptr::null;
-use error::prelude::*;
-use indy::{CommandHandle, SearchHandle, WalletHandle};
+use crate::error::prelude::*;
+use crate::indy::{CommandHandle, SearchHandle, WalletHandle};
 
 /// Get the total balance from all addresses contained in the configured wallet
 ///
@@ -142,7 +142,7 @@ pub extern fn vcx_wallet_sign_with_address(command_handle: CommandHandle,
                 trace!("vcx_wallet_sign_with_address_cb(command_handle: {}, rc: {}, signature: {:?})",
                        command_handle, error::SUCCESS.message, signature);
 
-                let (signature_raw, signature_len) = ::utils::cstring::vec_to_pointer(&signature);
+                let (signature_raw, signature_len) = crate::utils::cstring::vec_to_pointer(&signature);
 
                 cb(command_handle, error::SUCCESS.code_num, signature_raw, signature_len);
             }
@@ -666,7 +666,7 @@ pub  extern fn vcx_wallet_open_search(command_handle: CommandHandle,
 
     check_useful_c_callback!(cb, VcxErrorKind::InvalidOption);
 
-    use utils::constants::DEFAULT_SEARCH_HANDLE;
+    use crate::utils::constants::DEFAULT_SEARCH_HANDLE;
     spawn(move || {
         cb(command_handle, error::SUCCESS.code_num, DEFAULT_SEARCH_HANDLE as i32);
         Ok(())
@@ -709,7 +709,7 @@ pub  extern fn vcx_wallet_search_next_records(command_handle: CommandHandle,
            command_handle, wallet_search_handle);
 
     spawn(move || {
-        use utils::constants::DEFAULT_SEARCH_RECORD;
+        use crate::utils::constants::DEFAULT_SEARCH_RECORD;
         let msg = CStringUtils::string_to_cstring(DEFAULT_SEARCH_RECORD.to_string());
         cb(command_handle, error::SUCCESS.code_num, msg.as_ptr());
         Ok(())

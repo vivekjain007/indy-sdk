@@ -1,16 +1,16 @@
 use serde_json;
 use libc::c_char;
-use messages;
+use crate::messages;
 use std::ptr;
-use utils::cstring::CStringUtils;
-use utils::error;
-use utils::threadpool::spawn;
-use utils::libindy::payments;
+use crate::utils::cstring::CStringUtils;
+use crate::utils::error;
+use crate::utils::threadpool::spawn;
+use crate::utils::libindy::payments;
 use std::thread;
-use error::prelude::*;
-use indy_sys::CommandHandle;
-use utils::httpclient::AgencyMock;
-use utils::constants::*;
+use crate::error::prelude::*;
+use crate::indy_sys::CommandHandle;
+use crate::utils::httpclient::AgencyMock;
+use crate::utils::constants::*;
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct UpdateAgentInfo {
@@ -170,7 +170,7 @@ pub extern fn vcx_ledger_get_fees(command_handle: CommandHandle,
            command_handle);
 
     spawn(move || {
-        match ::utils::libindy::payments::get_ledger_fees() {
+        match crate::utils::libindy::payments::get_ledger_fees() {
             Ok(x) => {
                 trace!("vcx_ledger_get_fees_cb(command_handle: {}, rc: {}, fees: {})",
                        command_handle, error::SUCCESS.message, x);
@@ -257,7 +257,7 @@ pub extern fn vcx_download_agent_messages(command_handle: u32,
            command_handle, message_status, uids);
 
     spawn(move || {
-        match ::messages::get_message::download_agent_messages(message_status, uids) {
+        match crate::messages::get_message::download_agent_messages(message_status, uids) {
             Ok(x) => {
                 match serde_json::to_string(&x) {
                     Ok(x) => {
@@ -362,7 +362,7 @@ pub extern fn vcx_messages_download(command_handle: CommandHandle,
            command_handle, message_status, uids);
 
     spawn(move || {
-        match ::messages::get_message::download_messages(pw_dids, message_status, uids) {
+        match crate::messages::get_message::download_messages(pw_dids, message_status, uids) {
             Ok(x) => {
                 match serde_json::to_string(&x) {
                     Ok(x) => {
@@ -431,7 +431,7 @@ pub extern fn vcx_messages_update_status(command_handle: CommandHandle,
            command_handle, message_status, msg_json);
 
     spawn(move || {
-        match ::messages::update_message::update_agency_messages(&message_status, &msg_json) {
+        match crate::messages::update_message::update_agency_messages(&message_status, &msg_json) {
             Ok(()) => {
                 trace!("vcx_messages_set_status_cb(command_handle: {}, rc: {})",
                        command_handle, error::SUCCESS.message);
@@ -462,8 +462,8 @@ pub extern fn vcx_messages_update_status(command_handle: CommandHandle,
 /// Error code as u32
 #[no_mangle]
 pub extern fn vcx_pool_set_handle(handle: i32) -> i32 {
-    if handle <= 0 { ::utils::libindy::pool::set_pool_handle(None); }
-    else { ::utils::libindy::pool::set_pool_handle(Some(handle)); }
+    if handle <= 0 { crate::utils::libindy::pool::set_pool_handle(None); }
+    else { crate::utils::libindy::pool::set_pool_handle(Some(handle)); }
 
     handle
 }
@@ -542,7 +542,7 @@ pub extern fn vcx_endorse_transaction(command_handle: CommandHandle,
            command_handle, transaction);
 
     spawn(move || {
-        match ::utils::libindy::ledger::endorse_transaction(&transaction) {
+        match crate::utils::libindy::ledger::endorse_transaction(&transaction) {
             Ok(()) => {
                 trace!("vcx_endorse_transaction(command_handle: {}, rc: {})",
                        command_handle, error::SUCCESS.message);

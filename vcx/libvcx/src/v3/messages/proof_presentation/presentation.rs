@@ -1,11 +1,11 @@
-use v3::messages::a2a::{MessageId, A2AMessage};
-use v3::messages::attachment::{Attachments, AttachmentId};
-use v3::messages::ack::PleaseAck;
-use messages::thread::Thread;
-use messages::proofs::proof_message::ProofMessage;
+use crate::v3::messages::a2a::{MessageId, A2AMessage};
+use crate::v3::messages::attachment::{Attachments, AttachmentId};
+use crate::v3::messages::ack::PleaseAck;
+use crate::messages::thread::Thread;
+use crate::messages::proofs::proof_message::ProofMessage;
 use std::convert::TryInto;
 
-use error::prelude::*;
+use crate::error::prelude::*;
 
 #[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Default)]
 pub struct Presentation {

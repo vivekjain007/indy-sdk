@@ -1,19 +1,19 @@
-use api::VcxStateType;
+use crate::api::VcxStateType;
 
-use connection;
-use v3::handlers::proof_presentation::prover::messages::ProverMessages;
-use v3::messages::a2a::A2AMessage;
-use v3::messages::proof_presentation::presentation_request::PresentationRequest;
-use v3::messages::proof_presentation::presentation_proposal::{PresentationProposal, PresentationPreview};
-use v3::messages::proof_presentation::presentation::Presentation;
-use v3::messages::proof_presentation::presentation_ack::PresentationAck;
-use v3::messages::error::ProblemReport;
-use v3::messages::status::Status;
+use crate::connection;
+use crate::v3::handlers::proof_presentation::prover::messages::ProverMessages;
+use crate::v3::messages::a2a::A2AMessage;
+use crate::v3::messages::proof_presentation::presentation_request::PresentationRequest;
+use crate::v3::messages::proof_presentation::presentation_proposal::{PresentationProposal, PresentationPreview};
+use crate::v3::messages::proof_presentation::presentation::Presentation;
+use crate::v3::messages::proof_presentation::presentation_ack::PresentationAck;
+use crate::v3::messages::error::ProblemReport;
+use crate::v3::messages::status::Status;
 
 use std::collections::HashMap;
-use disclosed_proof::DisclosedProof;
+use crate::disclosed_proof::DisclosedProof;
 
-use error::prelude::*;
+use crate::error::prelude::*;
 
 /// A state machine that tracks the evolution of states for a Prover during
 /// the Present Proof protocol.

@@ -1,13 +1,13 @@
-use ::{serde_json, settings};
+use crate::{serde_json, settings};
 use serde_json::Value;
 use std::convert::TryInto;
 
-use error::prelude::*;
-use object_cache::ObjectCache;
-use api::VcxStateType;
-use issuer_credential::{CredentialOffer, CredentialMessage, PaymentInfo};
-use credential_request::CredentialRequest;
-use messages::{
+use crate::error::prelude::*;
+use crate::object_cache::ObjectCache;
+use crate::api::VcxStateType;
+use crate::issuer_credential::{CredentialOffer, CredentialMessage, PaymentInfo};
+use crate::credential_request::CredentialRequest;
+use crate::messages::{
     self,
     GeneralMessage,
     RemoteMessageType,
@@ -22,19 +22,19 @@ use messages::{
         MessagePayload,
     },
 };
-use connection;
-use utils::libindy::anoncreds::{
+use crate::connection;
+use crate::utils::libindy::anoncreds::{
     libindy_prover_create_credential_req,
     libindy_prover_store_credential,
     get_cred_def_json,
 };
-use utils::libindy::payments::{pay_a_payee, PaymentTxn};
-use utils::{error, constants};
+use crate::utils::libindy::payments::{pay_a_payee, PaymentTxn};
+use crate::utils::{error, constants};
 
-use utils::agent_info::{get_agent_info, MyAgentInfo, get_agent_attr};
-use utils::httpclient::AgencyMock;
+use crate::utils::agent_info::{get_agent_info, MyAgentInfo, get_agent_attr};
+use crate::utils::httpclient::AgencyMock;
 
-use v3::{
+use crate::v3::{
     messages::issuance::credential_offer::CredentialOffer as CredentialOfferV3,
     handlers::issuance::Holder,
 };
@@ -646,7 +646,7 @@ pub fn send_credential_request(handle: u32, connection_handle: u32) -> VcxResult
         let new_credential = match credential {
             Credentials::Pending(ref mut obj) => {
                 // if Aries connection is established --> Convert PendingCredential object to Aries credential
-                if ::connection::is_v3_connection(connection_handle)? {
+                if crate::connection::is_v3_connection(connection_handle)? {
                     let credential_offer = obj.credential_offer.clone()
                         .ok_or(VcxError::from_msg(VcxErrorKind::InvalidState, "Can not get CredentialOffer of Credential object in Pending state"))?;
 

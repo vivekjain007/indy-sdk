@@ -1,13 +1,13 @@
 use serde_json;
 use libc::c_char;
-use utils::cstring::CStringUtils;
-use utils::error;
+use crate::utils::cstring::CStringUtils;
+use crate::utils::error;
 use std::ptr;
-use credential_def;
-use settings;
-use utils::threadpool::spawn;
-use error::prelude::*;
-use indy_sys::CommandHandle;
+use crate::credential_def;
+use crate::settings;
+use crate::utils::threadpool::spawn;
+use crate::error::prelude::*;
+use crate::indy_sys::CommandHandle;
 
 /// Create a new CredentialDef object and publish correspondent record on the ledger
 ///

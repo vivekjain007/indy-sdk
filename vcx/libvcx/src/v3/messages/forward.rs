@@ -1,4 +1,4 @@
-use error::prelude::*;
+use crate::error::prelude::*;
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Default)]
 pub struct Forward {

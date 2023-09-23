@@ -1,15 +1,15 @@
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use serde_json::Value;
 
-use settings;
-use messages::{A2AMessage, A2AMessageV1, A2AMessageV2, A2AMessageKinds, prepare_message_for_agency, parse_response_from_agency};
-use messages::message_type::MessageTypes;
-use utils::{error, httpclient, constants};
-use utils::libindy::{wallet, anoncreds};
-use utils::libindy::signus::create_and_store_my_did;
-use utils::option_util::get_or_default;
-use error::prelude::*;
-use utils::httpclient::AgencyMock;
+use crate::settings;
+use crate::messages::{A2AMessage, A2AMessageV1, A2AMessageV2, A2AMessageKinds, prepare_message_for_agency, parse_response_from_agency};
+use crate::messages::message_type::MessageTypes;
+use crate::utils::{error, httpclient, constants};
+use crate::utils::libindy::{wallet, anoncreds};
+use crate::utils::libindy::signus::create_and_store_my_did;
+use crate::utils::option_util::get_or_default;
+use crate::error::prelude::*;
+use crate::utils::httpclient::AgencyMock;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Connect {
@@ -213,7 +213,7 @@ pub fn configure_wallet(my_config: &Config) -> VcxResult<(String, String, String
     trace!("initialized wallet");
 
     // If MS is already in wallet then just continue
-    anoncreds::libindy_prover_create_master_secret(::settings::DEFAULT_LINK_SECRET_ALIAS).ok();
+    anoncreds::libindy_prover_create_master_secret(crate::settings::DEFAULT_LINK_SECRET_ALIAS).ok();
 
     let (my_did, my_vk) = create_and_store_my_did(
         my_config.agent_seed.as_ref().map(String::as_str),

@@ -3,8 +3,8 @@ use std::collections::HashMap;
 use std::sync::Mutex;
 use std::ops::Deref;
 
-use utils::libindy::callback::{get_cb, build_string, build_buf};
-use indy_sys::CommandHandle;
+use crate::utils::libindy::callback::{get_cb, build_string, build_buf};
+use crate::indy_sys::CommandHandle;
 
 lazy_static! {
     pub static ref CALLBACKS_U32: Mutex<HashMap<CommandHandle, Box<dyn FnMut(u32) + Send>>> = Default::default();

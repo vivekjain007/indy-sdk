@@ -1,19 +1,19 @@
 use libc::c_char;
 use std::sync::mpsc::Receiver;
 use std::sync::mpsc::RecvTimeoutError;
-use utils::libindy::next_command_handle;
-use utils::libindy::callback_u32 as callback;
-use utils::libindy::callback::POISON_MSG;
-use utils::libindy::error_codes::map_indy_error;
-use utils::timeout::TimeoutUtils;
-use utils::error;
+use crate::utils::libindy::next_command_handle;
+use crate::utils::libindy::callback_u32 as callback;
+use crate::utils::libindy::callback::POISON_MSG;
+use crate::utils::libindy::error_codes::map_indy_error;
+use crate::utils::timeout::TimeoutUtils;
+use crate::utils::error;
 use std::sync::mpsc::channel;
 use std::fmt::Display;
 use std::time::Duration;
 use std::collections::HashMap;
 use std::sync::Mutex;
 use std::ops::Deref;
-use indy_sys::CommandHandle;
+use crate::indy_sys::CommandHandle;
 
 fn log_error<T: Display>(e: T) {
     warn!("Unable to send through libindy callback in vcx: {}", e);

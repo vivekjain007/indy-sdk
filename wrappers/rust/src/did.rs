@@ -1,4 +1,4 @@
-use {ErrorCode, IndyError};
+use crate::{ErrorCode, IndyError};
 
 use std::ffi::CString;
 
@@ -9,8 +9,8 @@ use ffi::{ResponseEmptyCB,
           ResponseStringCB,
           ResponseStringStringCB};
 
-use utils::callbacks::{ClosureHandler, ResultHandler};
-use {CommandHandle, WalletHandle, PoolHandle};
+use crate::utils::callbacks::{ClosureHandler, ResultHandler};
+use crate::{CommandHandle, WalletHandle, PoolHandle};
 
 /// Creates keys (signing and encryption keys) for a new
 /// DID (owned by the caller of the library).

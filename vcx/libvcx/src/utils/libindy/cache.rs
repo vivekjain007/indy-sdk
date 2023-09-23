@@ -1,6 +1,6 @@
 use serde_json;
 
-use utils::libindy::wallet::{add_record, get_record, update_record_value};
+use crate::utils::libindy::wallet::{add_record, get_record, update_record_value};
 
 static CACHE_TYPE: &str = "cache";
 static REV_REG_CACHE_PREFIX: &str = "rev_reg:";

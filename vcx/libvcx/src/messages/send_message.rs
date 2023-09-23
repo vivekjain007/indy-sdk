@@ -1,15 +1,15 @@
-use settings;
-use connection;
-use api::VcxStateType;
-use messages::*;
-use messages::message_type::MessageTypes;
-use messages::payload::{Payloads, PayloadKinds};
-use messages::thread::Thread;
-use utils::{httpclient, constants};
-use utils::uuid::uuid;
-use error::prelude::*;
-use utils::agent_info::get_agent_info;
-use utils::httpclient::AgencyMock;
+use crate::settings;
+use crate::connection;
+use crate::api::VcxStateType;
+use crate::messages::*;
+use crate::messages::message_type::MessageTypes;
+use crate::messages::payload::{Payloads, PayloadKinds};
+use crate::messages::thread::Thread;
+use crate::utils::{httpclient, constants};
+use crate::utils::uuid::uuid;
+use crate::error::prelude::*;
+use crate::utils::agent_info::get_agent_info;
+use crate::utils::httpclient::AgencyMock;
 
 #[derive(Debug)]
 pub struct SendMessageBuilder {

@@ -1,8 +1,8 @@
-use v3::messages::connection::invite::Invitation;
+use crate::v3::messages::connection::invite::Invitation;
 
-use error::prelude::*;
-use url::Url;
-use messages::validation::validate_verkey;
+use crate::error::prelude::*;
+use crate::url::Url;
+use crate::messages::validation::validate_verkey;
 
 pub const CONTEXT: &str = "https://w3id.org/did/v1";
 pub const KEY_TYPE: &str = "Ed25519VerificationKey2018";

@@ -3,7 +3,7 @@ use std::fs;
 use std::io::prelude::*;
 use std::fs::File;
 use std::path::Path;
-
+use serde_derive::Deserialize;
 extern crate toml;
 
 extern crate serde_derive;

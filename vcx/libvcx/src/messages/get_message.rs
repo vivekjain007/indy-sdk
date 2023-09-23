@@ -1,12 +1,12 @@
-use settings;
-use messages::*;
-use messages::message_type::MessageTypes;
-use messages::MessageStatusCode;
-use messages::payload::Payloads;
-use utils::{httpclient, constants};
-use error::prelude::*;
-use settings::ProtocolTypes;
-use utils::httpclient::AgencyMock;
+use crate::settings;
+use crate::messages::*;
+use crate::messages::message_type::MessageTypes;
+use crate::messages::MessageStatusCode;
+use crate::messages::payload::Payloads;
+use crate::utils::{httpclient, constants};
+use crate::error::prelude::*;
+use crate::settings::ProtocolTypes;
+use crate::utils::httpclient::AgencyMock;
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -216,7 +216,7 @@ impl GetMessagesBuilder {
         msgs
             .iter()
             .map(|connection| {
-                ::utils::libindy::signus::get_local_verkey(&connection.pairwise_did)
+                crate::utils::libindy::signus::get_local_verkey(&connection.pairwise_did)
                     .map(|vk| MessageByConnection {
                         pairwise_did: connection.pairwise_did.clone(),
                         msgs: connection.msgs.iter().map(|message| message.decrypt(&vk)).collect(),
@@ -340,12 +340,12 @@ impl Message {
         new_message
     }
 
-    fn _decrypt_v3_message(&self) -> VcxResult<::messages::payload::PayloadV1> {
-        use v3::messages::a2a::A2AMessage;
-        use v3::utils::encryption_envelope::EncryptionEnvelope;
-        use ::issuer_credential::{CredentialOffer, CredentialMessage};
-        use ::messages::proofs::proof_message::ProofMessage;
-        use ::messages::payload::{PayloadTypes, PayloadV1, PayloadKinds};
+    fn _decrypt_v3_message(&self) -> VcxResult<crate::messages::payload::PayloadV1> {
+        use crate::v3::messages::a2a::A2AMessage;
+        use crate::v3::utils::encryption_envelope::EncryptionEnvelope;
+        use crate::issuer_credential::{CredentialOffer, CredentialMessage};
+        use crate::messages::proofs::proof_message::ProofMessage;
+        use crate::messages::payload::{PayloadTypes, PayloadV1, PayloadKinds};
         use std::convert::TryInto;
 
         let a2a_message = EncryptionEnvelope::open(self.payload()?)?;
@@ -454,7 +454,7 @@ pub fn download_messages(pairwise_dids: Option<Vec<String>>, status_codes: Optio
             .uid(uids)?
             .status_codes(status_codes)?
             .pairwise_dids(pairwise_dids)?
-            .version(&Some(::settings::get_protocol_type()))?
+            .version(&Some(crate::settings::get_protocol_type()))?
             .download_messages()?;
 
     trace!("message returned: {:?}", response);
@@ -470,10 +470,10 @@ pub fn download_agent_messages(status_codes: Option<Vec<String>>, uids: Option<V
 
     let response =
         get_messages()
-            .to(&::settings::get_config_value(settings::CONFIG_SDK_TO_REMOTE_DID)?)?
-            .to_vk(&::settings::get_config_value(settings::CONFIG_SDK_TO_REMOTE_VERKEY)?)?
-            .agent_did(&::settings::get_config_value(settings::CONFIG_REMOTE_TO_SDK_DID)?)?
-            .agent_vk(&::settings::get_config_value(settings::CONFIG_REMOTE_TO_SDK_VERKEY)?)?
+            .to(&crate::settings::get_config_value(settings::CONFIG_SDK_TO_REMOTE_DID)?)?
+            .to_vk(&crate::settings::get_config_value(settings::CONFIG_SDK_TO_REMOTE_VERKEY)?)?
+            .agent_did(&crate::settings::get_config_value(settings::CONFIG_REMOTE_TO_SDK_DID)?)?
+            .agent_vk(&crate::settings::get_config_value(settings::CONFIG_REMOTE_TO_SDK_VERKEY)?)?
             .uid(uids)?
             .status_codes(status_codes)?
             .send_secure()?;

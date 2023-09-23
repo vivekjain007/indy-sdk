@@ -3,27 +3,27 @@ use serde_json::Value;
 use openssl;
 use openssl::bn::{BigNum, BigNumRef};
 
-use settings;
-use api::{VcxStateType, ProofStateType};
-use messages;
-use messages::proofs::proof_message::{ProofMessage, CredInfo};
-use messages::{RemoteMessageType, GeneralMessage};
-use messages::payload::{Payloads, PayloadKinds};
-use messages::thread::Thread;
-use messages::get_message::get_ref_msg;
-use messages::proofs::proof_request::{ProofRequestMessage, ProofRequestVersion};
-use utils::error;
-use utils::constants::*;
-use utils::libindy::anoncreds;
-use object_cache::ObjectCache;
-use error::prelude::*;
-use utils::openssl::encode;
-use utils::qualifier;
-use messages::proofs::proof_message::get_credential_info;
+use crate::settings;
+use crate::api::{VcxStateType, ProofStateType};
+use crate::messages;
+use crate::messages::proofs::proof_message::{ProofMessage, CredInfo};
+use crate::messages::{RemoteMessageType, GeneralMessage};
+use crate::messages::payload::{Payloads, PayloadKinds};
+use crate::messages::thread::Thread;
+use crate::messages::get_message::get_ref_msg;
+use crate::messages::proofs::proof_request::{ProofRequestMessage, ProofRequestVersion};
+use crate::utils::error;
+use crate::utils::constants::*;
+use crate::utils::libindy::anoncreds;
+use crate::object_cache::ObjectCache;
+use crate::error::prelude::*;
+use crate::utils::openssl::encode;
+use crate::utils::qualifier;
+use crate::messages::proofs::proof_message::get_credential_info;
 
-use v3::handlers::proof_presentation::verifier::verifier::Verifier;
-use utils::agent_info::{get_agent_info, MyAgentInfo, get_agent_attr};
-use settings::get_config_value;
+use crate::v3::handlers::proof_presentation::verifier::verifier::Verifier;
+use crate::utils::agent_info::{get_agent_info, MyAgentInfo, get_agent_attr};
+use crate::settings::get_config_value;
 
 lazy_static! {
     static ref PROOF_MAP: ObjectCache<Proofs> = Default::default();
@@ -591,7 +591,7 @@ pub fn send_proof_request(handle: u32, connection_handle: u32) -> VcxResult<u32>
         let new_proof = match proof {
             Proofs::Pending(ref mut obj) => {
                 // if Aries connection is established --> Convert Pending object to V3 Aries proof
-                if ::connection::is_v3_connection(connection_handle)? {
+                if crate::connection::is_v3_connection(connection_handle)? {
                     let revocation_details = serde_json::to_string(&obj.revocation_interval)
                         .map_err(|err| VcxError::from_msg(VcxErrorKind::InvalidState, format!("Can not serialize RevocationDetails: {:?}", err)))?;
 

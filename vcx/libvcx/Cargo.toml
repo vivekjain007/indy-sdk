@@ -6,6 +6,7 @@ authors = ["Hyperledger Indy Contributors <hyperledger-indy@lists.hyperledger.or
 publish = false
 description = "This is the official SDK for Evernym's VCX"
 license = "Apache-2.0"
+edition = "2021"
 
 [lib]
 name = "vcx"

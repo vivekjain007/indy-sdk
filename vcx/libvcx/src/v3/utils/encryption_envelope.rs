@@ -1,9 +1,9 @@
-use utils::libindy::crypto;
+use crate::utils::libindy::crypto;
 
-use error::prelude::*;
-use v3::messages::a2a::A2AMessage;
-use v3::messages::connection::did_doc::DidDoc;
-use v3::messages::forward::Forward;
+use crate::error::prelude::*;
+use crate::v3::messages::a2a::A2AMessage;
+use crate::v3::messages::connection::did_doc::DidDoc;
+use crate::v3::messages::forward::Forward;
 
 #[derive(Debug)]
 pub struct EncryptionEnvelope(pub Vec<u8>);
@@ -14,7 +14,7 @@ impl EncryptionEnvelope {
                   did_doc: &DidDoc) -> VcxResult<EncryptionEnvelope> {
         trace!("EncryptionEnvelope::create >>> message: {:?}, pw_verkey: {:?}, did_doc: {:?}", message, pw_verkey, did_doc);
 
-        if ::settings::indy_mocks_enabled() { return Ok(EncryptionEnvelope(vec![])); }
+        if crate::settings::indy_mocks_enabled() { return Ok(EncryptionEnvelope(vec![])); }
 
         EncryptionEnvelope::encrypt_for_pairwise(message, pw_verkey, did_doc)
             .and_then(|message| EncryptionEnvelope::wrap_into_forward_messages(message, did_doc))

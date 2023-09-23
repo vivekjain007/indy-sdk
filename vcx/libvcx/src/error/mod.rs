@@ -6,8 +6,8 @@ use std::ptr;
 use failure::{Context, Backtrace, Fail};
 use libc::c_char;
 
-use utils::error;
-use utils::cstring::CStringUtils;
+use crate::utils::error;
+use crate::utils::cstring::CStringUtils;
 
 pub mod prelude {
     pub use super::{err_msg, VcxError, VcxErrorExt, VcxErrorKind, VcxResult, VcxResultExt, get_current_error_c_json};
@@ -234,7 +234,7 @@ impl fmt::Display for VcxError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let mut first = true;
 
-        for cause in dyn Fail::iter_chain(&self.inner) {
+        for cause in <dyn Fail>::iter_chain(&self.inner) {
             if first {
                 first = false;
                 writeln!(f, "Error: {}", cause)?;
@@ -276,7 +276,7 @@ pub fn err_msg<D>(kind: VcxErrorKind, msg: D) -> VcxError
 
 impl From<VcxErrorKind> for VcxError {
     fn from(kind: VcxErrorKind) -> VcxError {
-        VcxError::from_msg(kind, ::utils::error::error_message(&kind.clone().into()))
+        VcxError::from_msg(kind, crate::utils::error::error_message(&kind.clone().into()))
     }
 }
 
@@ -426,7 +426,7 @@ pub fn set_current_error(err: &VcxError) {
         let error_json = json!({
             "error": err.kind().to_string(),
             "message": err.to_string(),
-            "cause": dyn Fail::find_root_cause(err).to_string(),
+            "cause": <dyn Fail>::find_root_cause(err).to_string(),
             "backtrace": err.backtrace().map(|bt| bt.to_string())
         }).to_string();
         error.replace(Some(CStringUtils::string_to_cstring(error_json)));

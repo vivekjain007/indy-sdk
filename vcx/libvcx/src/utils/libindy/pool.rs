@@ -1,10 +1,10 @@
 use futures::Future;
-use indy::{pool, ErrorCode};
+use crate::indy::{pool, ErrorCode};
 
 use std::sync::RwLock;
 
-use settings;
-use error::prelude::*;
+use crate::settings;
+use crate::error::prelude::*;
 
 lazy_static! {
     static ref POOL_HANDLE: RwLock<Option<i32>> = RwLock::new(None);

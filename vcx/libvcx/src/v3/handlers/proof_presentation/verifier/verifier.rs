@@ -1,15 +1,15 @@
-use error::prelude::*;
+use crate::error::prelude::*;
 use std::convert::TryInto;
 
-use ::{connection, settings};
-use v3::messages::proof_presentation::presentation_request::*;
-use v3::messages::proof_presentation::presentation::Presentation;
-use v3::handlers::proof_presentation::verifier::states::VerifierSM;
-use v3::handlers::proof_presentation::verifier::messages::VerifierMessages;
-use v3::messages::a2a::A2AMessage;
+use crate::{connection, settings};
+use crate::v3::messages::proof_presentation::presentation_request::*;
+use crate::v3::messages::proof_presentation::presentation::Presentation;
+use crate::v3::handlers::proof_presentation::verifier::states::VerifierSM;
+use crate::v3::handlers::proof_presentation::verifier::messages::VerifierMessages;
+use crate::v3::messages::a2a::A2AMessage;
 
-use messages::proofs::proof_request::ProofRequestMessage;
-use messages::proofs::proof_message::ProofMessage;
+use crate::messages::proofs::proof_request::ProofRequestMessage;
+use crate::messages::proofs::proof_message::ProofMessage;
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Verifier {

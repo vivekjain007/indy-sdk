@@ -1,14 +1,14 @@
 extern crate serde_json;
 
-use ErrorCode;
-use libindy::ledger;
-use libindy::payments::IndyPaymentCallback;
-use services::*;
-use services::response_storage::*;
-use utils::types::*;
-use utils::rand;
-use utils::json_helper::parse_operation_from_request;
-use utils::cstring;
+use crate::ErrorCode;
+use crate::libindy::ledger;
+use crate::libindy::payments::IndyPaymentCallback;
+use crate::services::*;
+use crate::services::response_storage::*;
+use crate::utils::types::*;
+use crate::utils::rand;
+use crate::utils::json_helper::parse_operation_from_request;
+use crate::utils::cstring;
 
 use serde_json::{from_str, to_string};
 use std::collections::HashMap;
@@ -16,7 +16,7 @@ use libc::c_char;
 
 use std::thread;
 
-use libindy;
+use crate::libindy;
 
 pub static PAYMENT_METHOD_NAME: &str = "null";
 
@@ -482,7 +482,7 @@ fn _process_outputs(outputs: &Vec<Output>, seq_no: i32) -> Vec<ReceiptInfo> {
     }).collect()
 }
 
-use utils::source::from_source;
+use crate::utils::source::from_source;
 
 fn _check_inputs(inputs: &Vec<String>, payment_addresses: &Vec<String>) -> bool {
     inputs.iter().all(|source|

@@ -1,17 +1,17 @@
 use std::collections::HashMap;
 
-use api::VcxStateType;
-use connection::{get_pw_did, get_their_pw_verkey};
-use connection;
-use error::prelude::*;
-use proof::Proof;
-use v3::handlers::proof_presentation::verifier::messages::VerifierMessages;
-use v3::messages::a2a::A2AMessage;
-use v3::messages::error::ProblemReport;
-use v3::messages::proof_presentation::presentation::Presentation;
-use v3::messages::proof_presentation::presentation_ack::PresentationAck;
-use v3::messages::proof_presentation::presentation_request::{PresentationRequest, PresentationRequestData};
-use v3::messages::status::Status;
+use crate::api::VcxStateType;
+use crate::connection::{get_pw_did, get_their_pw_verkey};
+use crate::connection;
+use crate::error::prelude::*;
+use crate::proof::Proof;
+use crate::v3::handlers::proof_presentation::verifier::messages::VerifierMessages;
+use crate::v3::messages::a2a::A2AMessage;
+use crate::v3::messages::error::ProblemReport;
+use crate::v3::messages::proof_presentation::presentation::Presentation;
+use crate::v3::messages::proof_presentation::presentation_ack::PresentationAck;
+use crate::v3::messages::proof_presentation::presentation_request::{PresentationRequest, PresentationRequestData};
+use crate::v3::messages::status::Status;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct VerifierSM {
@@ -169,7 +169,7 @@ impl VerifierSM {
                                 .set_format_version_for_did(&my_did, &remote_did)?;
 
                         let title = format!("{} wants you to share {}",
-                                            ::settings::get_config_value(::settings::CONFIG_INSTITUTION_NAME)?, presentation_request.name);
+                        crate::settings::get_config_value(crate::settings::CONFIG_INSTITUTION_NAME)?, presentation_request.name);
 
                         let presentation_request =
                             PresentationRequest::create()

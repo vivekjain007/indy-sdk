@@ -1,6 +1,6 @@
-use error::{VcxError, VcxErrorKind, VcxResult};
+use crate::error::{VcxError, VcxErrorKind, VcxResult};
 use serde_json;
-use settings;
+use crate::settings;
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]

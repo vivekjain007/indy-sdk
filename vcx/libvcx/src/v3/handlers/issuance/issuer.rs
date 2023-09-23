@@ -1,19 +1,19 @@
-use api::VcxStateType;
-use v3::handlers::issuance::messages::CredentialIssuanceMessage;
-use v3::handlers::issuance::states::{IssuerState, InitialState };
-use v3::messages::a2a::A2AMessage;
-use v3::messages::issuance::credential_offer::CredentialOffer;
-use v3::messages::issuance::credential_request::CredentialRequest;
-use v3::messages::issuance::credential::Credential;
-use v3::messages::error::ProblemReport;
-use v3::messages::mime_type::MimeType;
-use error::{VcxResult, VcxError, VcxErrorKind};
-use utils::libindy::anoncreds::{self, libindy_issuer_create_credential_offer, revoke_credential};
-use issuer_credential::encode_attributes;
-use v3::messages::status::Status;
+use crate::api::VcxStateType;
+use crate::v3::handlers::issuance::messages::CredentialIssuanceMessage;
+use crate::v3::handlers::issuance::states::{IssuerState, InitialState };
+use crate::v3::messages::a2a::A2AMessage;
+use crate::v3::messages::issuance::credential_offer::CredentialOffer;
+use crate::v3::messages::issuance::credential_request::CredentialRequest;
+use crate::v3::messages::issuance::credential::Credential;
+use crate::v3::messages::error::ProblemReport;
+use crate::v3::messages::mime_type::MimeType;
+use crate::error::{VcxResult, VcxError, VcxErrorKind};
+use crate::utils::libindy::anoncreds::{self, libindy_issuer_create_credential_offer, revoke_credential};
+use crate::issuer_credential::encode_attributes;
+use crate::v3::messages::status::Status;
 use std::collections::HashMap;
-use connection::{send_message, get_messages};
-use connection;
+use crate::connection::{send_message, get_messages};
+use crate::connection;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct IssuerSM {

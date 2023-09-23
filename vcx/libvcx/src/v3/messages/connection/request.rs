@@ -1,5 +1,5 @@
-use v3::messages::a2a::{A2AMessage, MessageId};
-use v3::messages::connection::did_doc::*;
+use crate::v3::messages::a2a::{A2AMessage, MessageId};
+use crate::v3::messages::connection::did_doc::*;
 
 #[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Default)]
 pub struct Request {

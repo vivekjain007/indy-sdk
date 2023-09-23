@@ -4,28 +4,28 @@ use rmp_serde;
 use serde_json;
 use serde_json::Value;
 
-use api::VcxStateType;
-use error::prelude::*;
-use messages;
-use messages::{GeneralMessage, MessageStatusCode, RemoteMessageType, SerializableObjectWithState};
-use messages::invite::{InviteDetail, RedirectDetail, SenderDetail, Payload as ConnectionPayload, AcceptanceDetails, RedirectionDetails};
-use messages::payload::{Payloads, PayloadKinds};
-use messages::thread::Thread;
-use messages::send_message::SendMessageOptions;
-use messages::get_message::{Message, MessagePayload};
-use object_cache::ObjectCache;
-use settings;
-use utils::error;
-use utils::libindy::signus::create_and_store_my_did;
-use utils::libindy::crypto;
-use utils::json::mapped_key_rewrite;
-use utils::json::KeyMatch;
+use crate::api::VcxStateType;
+use crate::error::prelude::*;
+use crate::messages;
+use crate::messages::{GeneralMessage, MessageStatusCode, RemoteMessageType, SerializableObjectWithState};
+use crate::messages::invite::{InviteDetail, RedirectDetail, SenderDetail, Payload as ConnectionPayload, AcceptanceDetails, RedirectionDetails};
+use crate::messages::payload::{Payloads, PayloadKinds};
+use crate::messages::thread::Thread;
+use crate::messages::send_message::SendMessageOptions;
+use crate::messages::get_message::{Message, MessagePayload};
+use crate::object_cache::ObjectCache;
+use crate::settings;
+use crate::utils::error;
+use crate::utils::libindy::signus::create_and_store_my_did;
+use crate::utils::libindy::crypto;
+use crate::utils::json::mapped_key_rewrite;
+use crate::utils::json::KeyMatch;
 
-use v3::handlers::connection::connection::Connection as ConnectionV3;
-use v3::handlers::connection::states::ActorDidExchangeState;
-use v3::handlers::connection::agent::AgentInfo;
-use v3::messages::connection::invite::Invitation as InvitationV3;
-use settings::ProtocolTypes;
+use crate::v3::handlers::connection::connection::Connection as ConnectionV3;
+use crate::v3::handlers::connection::states::ActorDidExchangeState;
+use crate::v3::handlers::connection::agent::AgentInfo;
+use crate::v3::messages::connection::invite::Invitation as InvitationV3;
+use crate::settings::ProtocolTypes;
 
 lazy_static! {
     static ref CONNECTION_MAP: ObjectCache<Connections> = Default::default();
@@ -227,7 +227,7 @@ impl Connection {
 
     fn generate_redirect_details(&self) -> VcxResult<RedirectDetail> {
         let signature = format!("{}{}", self.pw_did, self.pw_verkey);
-        let signature = ::utils::libindy::crypto::sign(&self.pw_verkey, signature.as_bytes())?;
+        let signature = crate::utils::libindy::crypto::sign(&self.pw_verkey, signature.as_bytes())?;
         let signature = base64::encode(&signature);
 
         Ok(RedirectDetail {
@@ -406,7 +406,7 @@ impl Connection {
         })?;
 
         let response =
-            ::messages::send_message()
+        crate::messages::send_message()
                 .to(&self.get_pw_did())?
                 .to_vk(&self.get_pw_verkey())?
                 .msg_type(&RemoteMessageType::Other(msg_options.msg_type.clone()))?
@@ -1029,7 +1029,7 @@ pub fn to_string(handle: u32) -> VcxResult<String> {
 }
 
 pub fn from_string(connection_data: &str) -> VcxResult<u32> {
-    let object: SerializableObjectWithState<Connection, ::v3::handlers::connection::states::ActorDidExchangeState> = ::serde_json::from_str(connection_data)
+    let object: SerializableObjectWithState<Connection, crate::v3::handlers::connection::states::ActorDidExchangeState> = ::serde_json::from_str(connection_data)
         .map_err(|err| VcxError::from_msg(VcxErrorKind::InvalidJson, format!("Cannot deserialize Connection: {:?}", err)))?;
 
     let handle = match object {
@@ -1242,8 +1242,8 @@ impl From<(Connection, ActorDidExchangeState)> for ConnectionV3 {
     }
 }
 
-use v3::messages::a2a::A2AMessage;
-use v3::messages::connection::did_doc::DidDoc;
+use crate::v3::messages::a2a::A2AMessage;
+use crate::v3::messages::connection::did_doc::DidDoc;
 
 pub fn get_messages(handle: u32) -> VcxResult<HashMap<String, A2AMessage>> {
     CONNECTION_MAP.get_mut(handle, |connection| {

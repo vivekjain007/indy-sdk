@@ -1,9 +1,9 @@
-use ErrorCode;
+use crate::ErrorCode;
 
 use libc::c_char;
 use std::ffi::CString;
 use std::ptr::null;
-use utils::callbacks;
+use crate::utils::callbacks;
 
 pub fn build_get_txn_request(
     submitter_did: Option<&str>,

@@ -2,14 +2,14 @@ use serde_json;
 
 use std::string::ToString;
 
-use api::PublicEntityStateType;
-use utils::libindy::anoncreds;
-use utils::libindy::ledger;
-use utils::libindy::payments::PaymentTxn;
-use utils::constants::DEFAULT_SERIALIZE_VERSION;
-use object_cache::ObjectCache;
-use messages::ObjectWithVersion;
-use error::prelude::*;
+use crate::api::PublicEntityStateType;
+use crate::utils::libindy::anoncreds;
+use crate::utils::libindy::ledger;
+use crate::utils::libindy::payments::PaymentTxn;
+use crate::utils::constants::DEFAULT_SERIALIZE_VERSION;
+use crate::object_cache::ObjectCache;
+use crate::messages::ObjectWithVersion;
+use crate::error::prelude::*;
 
 lazy_static! {
     static ref SCHEMA_MAP: ObjectCache<CreateSchema> = Default::default();

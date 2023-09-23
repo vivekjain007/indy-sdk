@@ -1,21 +1,21 @@
-use api::VcxStateType;
+use crate::api::VcxStateType;
 
-use v3::handlers::issuance::states::{HolderState, OfferReceivedState};
-use v3::handlers::issuance::messages::CredentialIssuanceMessage;
-use v3::messages::issuance::credential::Credential;
-use v3::messages::issuance::credential_offer::CredentialOffer;
-use v3::messages::issuance::credential_request::CredentialRequest;
-use v3::messages::issuance::credential_ack::CredentialAck;
-use v3::messages::error::ProblemReport;
-use v3::messages::a2a::A2AMessage;
-use v3::messages::status::Status;
-use connection;
+use crate::v3::handlers::issuance::states::{HolderState, OfferReceivedState};
+use crate::v3::handlers::issuance::messages::CredentialIssuanceMessage;
+use crate::v3::messages::issuance::credential::Credential;
+use crate::v3::messages::issuance::credential_offer::CredentialOffer;
+use crate::v3::messages::issuance::credential_request::CredentialRequest;
+use crate::v3::messages::issuance::credential_ack::CredentialAck;
+use crate::v3::messages::error::ProblemReport;
+use crate::v3::messages::a2a::A2AMessage;
+use crate::v3::messages::status::Status;
+use crate::connection;
 
-use utils::libindy::anoncreds::{self, libindy_prover_store_credential, libindy_prover_delete_credential};
-use error::prelude::*;
+use crate::utils::libindy::anoncreds::{self, libindy_prover_store_credential, libindy_prover_delete_credential};
+use crate::error::prelude::*;
 use std::collections::HashMap;
 
-use credential;
+use crate::credential;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct HolderSM {

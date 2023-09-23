@@ -1,4 +1,4 @@
-use v3::messages::connection::did_doc::DidDoc;
+use crate::v3::messages::connection::did_doc::DidDoc;
 
 #[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Default)]
 #[serde(rename_all = "camelCase")]

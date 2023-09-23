@@ -1,6 +1,6 @@
-use ErrorCode;
+use crate::ErrorCode;
 use libc::c_char;
-use utils::callbacks;
+use crate::utils::callbacks;
 use std::sync::mpsc::channel;
 
 pub type IndyPaymentCallback = extern fn(command_handle_: i32,

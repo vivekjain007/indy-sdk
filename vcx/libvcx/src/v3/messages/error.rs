@@ -1,5 +1,5 @@
-use v3::messages::a2a::{MessageId, A2AMessage};
-use messages::thread::Thread;
+use crate::v3::messages::a2a::{MessageId, A2AMessage};
+use crate::messages::thread::Thread;
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]

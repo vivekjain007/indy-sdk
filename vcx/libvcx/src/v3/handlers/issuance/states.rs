@@ -1,9 +1,9 @@
-use v3::messages::a2a::MessageId;
-use v3::messages::issuance::credential_request::CredentialRequest;
-use v3::messages::issuance::credential_offer::CredentialOffer;
-use v3::messages::issuance::credential::Credential;
-use v3::messages::status::Status;
-use v3::messages::error::ProblemReport;
+use crate::v3::messages::a2a::MessageId;
+use crate::v3::messages::issuance::credential_request::CredentialRequest;
+use crate::v3::messages::issuance::credential_offer::CredentialOffer;
+use crate::v3::messages::issuance::credential::Credential;
+use crate::v3::messages::status::Status;
+use crate::v3::messages::error::ProblemReport;
 
 // Possible Transitions:
 // Initial -> OfferSent

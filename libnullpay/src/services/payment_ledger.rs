@@ -1,5 +1,5 @@
-use utils::types::{Output, ReceiptInfo, SourceInfo, ReceiptVerificationInfo, ShortReceiptInfo};
-use utils::source::{from_source, to_source};
+use crate::utils::types::{Output, ReceiptInfo, SourceInfo, ReceiptVerificationInfo, ShortReceiptInfo};
+use crate::utils::source::{from_source, to_source};
 
 use std::collections::HashMap;
 use std::sync::atomic::{AtomicUsize, Ordering};

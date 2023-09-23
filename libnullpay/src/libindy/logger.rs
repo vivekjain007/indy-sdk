@@ -1,6 +1,6 @@
 extern crate log;
 
-use ErrorCode;
+use crate::ErrorCode;
 
 use libc::{c_void, c_char};
 

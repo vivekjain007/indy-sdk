@@ -13,10 +13,10 @@ pub mod logger;
 pub mod error_codes;
 
 use std::sync::Mutex;
-use settings;
+use crate::settings;
 
 use std::sync::atomic::{AtomicUsize, Ordering};
-use indy_sys::CommandHandle;
+use crate::indy_sys::CommandHandle;
 
 static COMMAND_HANDLE_COUNTER: AtomicUsize = AtomicUsize::new(1);
 

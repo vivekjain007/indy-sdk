@@ -1,14 +1,14 @@
-use utils::version_constants;
+use crate::utils::version_constants;
 use libc::c_char;
-use utils::cstring::CStringUtils;
-use utils::libindy::{wallet, pool, ledger};
-use utils::error;
-use settings;
+use crate::utils::cstring::CStringUtils;
+use crate::utils::libindy::{wallet, pool, ledger};
+use crate::utils::error;
+use crate::settings;
 use std::ffi::CString;
-use utils::threadpool::spawn;
-use error::prelude::*;
-use indy::{INVALID_WALLET_HANDLE, CommandHandle};
-use utils::libindy::pool::init_pool;
+use crate::utils::threadpool::spawn;
+use crate::error::prelude::*;
+use crate::indy::{INVALID_WALLET_HANDLE, CommandHandle};
+use crate::utils::libindy::pool::init_pool;
 
 /// Initializes VCX with config settings
 ///
@@ -102,7 +102,7 @@ pub extern fn vcx_init(command_handle: CommandHandle,
 }
 
 fn _finish_init(command_handle: CommandHandle, cb: extern fn(xcommand_handle: CommandHandle, err: u32)) -> u32 {
-    ::utils::threadpool::init();
+    crate::utils::threadpool::init();
 
     settings::log_settings();
 
@@ -149,7 +149,7 @@ fn _finish_init(command_handle: CommandHandle, cb: extern fn(xcommand_handle: Co
         }
 
         match settings::get_config_value(settings::CONFIG_WEBHOOK_URL) {
-            Ok(webhook_url) => match ::messages::agent_utils::update_agent_webhook(&webhook_url) {
+            Ok(webhook_url) => match crate::messages::agent_utils::update_agent_webhook(&webhook_url) {
                 Ok(()) => {
                     info!("Agent webhook url updated on init, webhook_url={}", webhook_url);
                     cb(command_handle, error::SUCCESS.code_num);
@@ -206,7 +206,7 @@ pub extern fn vcx_init_minimal(config: *const c_char) -> u32 {
         return error::INVALID_STATE.code_num;
     }
 
-    ::utils::threadpool::init();
+    crate::utils::threadpool::init();
 
     settings::log_settings();
 
@@ -249,13 +249,13 @@ pub extern fn vcx_shutdown(delete: bool) -> u32 {
         Err(_) => {}
     };
 
-    ::schema::release_all();
-    ::connection::release_all();
-    ::issuer_credential::release_all();
-    ::credential_def::release_all();
-    ::proof::release_all();
-    ::disclosed_proof::release_all();
-    ::credential::release_all();
+    crate::schema::release_all();
+    crate::connection::release_all();
+    crate::issuer_credential::release_all();
+    crate::credential_def::release_all();
+    crate::proof::release_all();
+    crate::disclosed_proof::release_all();
+    crate::credential::release_all();
 
     if delete {
         let pool_name = settings::get_config_value(settings::CONFIG_POOL_NAME)
@@ -312,8 +312,8 @@ pub extern fn vcx_update_institution_info(name: *const c_char, logo_url: *const 
     check_useful_c_str!(logo_url, VcxErrorKind::InvalidConfiguration);
     trace!("vcx_update_institution_info(name: {}, logo_url: {})", name, logo_url);
 
-    settings::set_config_value(::settings::CONFIG_INSTITUTION_NAME, &name);
-    settings::set_config_value(::settings::CONFIG_INSTITUTION_LOGO_URL, &logo_url);
+    settings::set_config_value(crate::settings::CONFIG_INSTITUTION_NAME, &name);
+    settings::set_config_value(crate::settings::CONFIG_INSTITUTION_LOGO_URL, &logo_url);
 
     error::SUCCESS.code_num
 }
@@ -341,10 +341,10 @@ pub extern fn vcx_update_webhook_url(command_handle: CommandHandle,
 
     trace!("vcx_update_webhook(webhook_url: {})", notification_webhook_url);
 
-    settings::set_config_value(::settings::CONFIG_WEBHOOK_URL, &notification_webhook_url);
+    settings::set_config_value(crate::settings::CONFIG_WEBHOOK_URL, &notification_webhook_url);
 
     spawn(move || {
-        match ::messages::agent_utils::update_agent_webhook(&notification_webhook_url[..]) {
+        match crate::messages::agent_utils::update_agent_webhook(&notification_webhook_url[..]) {
             Ok(()) => {
                 trace!("vcx_update_webhook_url_cb(command_handle: {}, rc: {})",
                         command_handle, error::SUCCESS.message);
@@ -439,7 +439,7 @@ pub extern fn vcx_set_active_txn_author_agreement_meta(text: *const c_char,
     trace!("vcx_set_active_txn_author_agreement_meta(text: {:?}, version: {:?}, hash: {:?}, acc_mech_type: {:?}, time_of_acceptance: {:?})",
            text, version, hash, acc_mech_type, time_of_acceptance);
 
-    match ::utils::author_agreement::set_txn_author_agreement(text, version, hash, acc_mech_type, time_of_acceptance) {
+    match crate::utils::author_agreement::set_txn_author_agreement(text, version, hash, acc_mech_type, time_of_acceptance) {
         Ok(()) => error::SUCCESS.code_num,
         Err(err) => err.into()
     }
@@ -469,7 +469,7 @@ pub extern fn vcx_mint_tokens(seed: *const c_char, fees: *const c_char) {
     };
     trace!("vcx_mint_tokens(seed: {:?}, fees: {:?})", seed, fees);
 
-    ::utils::libindy::payments::mint_tokens_and_set_fees(None, None, fees, seed).unwrap_or_default();
+    crate::utils::libindy::payments::mint_tokens_and_set_fees(None, None, fees, seed).unwrap_or_default();
 }
 
 /// Get details for last occurred error.

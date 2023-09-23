@@ -1,11 +1,11 @@
-use v3::messages::a2a::{MessageId, A2AMessage};
-use v3::messages::issuance::CredentialPreviewData;
-use v3::messages::attachment::{Attachments, AttachmentId};
-use v3::messages::mime_type::MimeType;
-use error::{VcxError, VcxResult, VcxErrorKind};
-use messages::thread::Thread;
-use issuer_credential::CredentialOffer as CredentialOfferV1;
-use messages::payload::PayloadKinds;
+use crate::v3::messages::a2a::{MessageId, A2AMessage};
+use crate::v3::messages::issuance::CredentialPreviewData;
+use crate::v3::messages::attachment::{Attachments, AttachmentId};
+use crate::v3::messages::mime_type::MimeType;
+use crate::error::{VcxError, VcxResult, VcxErrorKind};
+use crate::messages::thread::Thread;
+use crate::issuer_credential::CredentialOffer as CredentialOfferV1;
+use crate::messages::payload::PayloadKinds;
 use std::convert::TryInto;
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Clone, Default)]

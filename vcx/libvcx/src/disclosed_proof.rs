@@ -4,12 +4,12 @@ use std::collections::HashMap;
 use time;
 use std::convert::TryInto;
 
-use object_cache::ObjectCache;
-use api::VcxStateType;
-use error::prelude::*;
+use crate::object_cache::ObjectCache;
+use crate::api::VcxStateType;
+use crate::error::prelude::*;
 
-use connection;
-use messages::{
+use crate::connection;
+use crate::messages::{
     self,
     GeneralMessage,
     RemoteMessageType,
@@ -20,7 +20,7 @@ use messages::{
     thread::Thread,
     get_message::Message,
 };
-use messages::proofs::{
+use crate::messages::proofs::{
     proof_message::ProofMessage,
     proof_request::{
         ProofRequestMessage,
@@ -28,20 +28,20 @@ use messages::proofs::{
         NonRevokedInterval,
     },
 };
-use settings;
-use utils::error;
-use utils::constants::{CREDS_FROM_PROOF_REQ, DEFAULT_GENERATED_PROOF, DEFAULT_REJECTED_PROOF, NEW_PROOF_REQUEST_RESPONSE};
-use utils::libindy::cache::{get_rev_reg_cache, set_rev_reg_cache, RevRegCache, RevState};
-use utils::libindy::anoncreds;
-use utils::libindy::anoncreds::{get_rev_reg_def_json, get_rev_reg_delta_json};
+use crate::settings;
+use crate::utils::error;
+use crate::utils::constants::{CREDS_FROM_PROOF_REQ, DEFAULT_GENERATED_PROOF, DEFAULT_REJECTED_PROOF, NEW_PROOF_REQUEST_RESPONSE};
+use crate::utils::libindy::cache::{get_rev_reg_cache, set_rev_reg_cache, RevRegCache, RevState};
+use crate::utils::libindy::anoncreds;
+use crate::utils::libindy::anoncreds::{get_rev_reg_def_json, get_rev_reg_delta_json};
 
-use v3::{
+use crate::v3::{
     messages::proof_presentation::presentation_request::PresentationRequest,
     handlers::proof_presentation::prover::prover::Prover,
 };
 
-use utils::agent_info::{get_agent_info, MyAgentInfo, get_agent_attr};
-use utils::httpclient::AgencyMock;
+use crate::utils::agent_info::{get_agent_info, MyAgentInfo, get_agent_attr};
+use crate::utils::httpclient::AgencyMock;
 
 lazy_static! {
     static ref HANDLE_MAP: ObjectCache<DisclosedProofs>  = Default::default();
@@ -719,7 +719,7 @@ pub fn send_proof(handle: u32, connection_handle: u32) -> VcxResult<u32> {
         let new_proof = match proof {
             DisclosedProofs::Pending(ref mut obj) => {
                 // if Aries connection is established --> Convert DisclosedProofs object to Aries presentation
-                if ::connection::is_v3_connection(connection_handle)? {
+                if crate::connection::is_v3_connection(connection_handle)? {
                     let proof_request = obj.proof_request.clone()
                         .ok_or(VcxError::from_msg(VcxErrorKind::InvalidState, "Can not get CredentialOffer of Credential object in Pending state"))?;
 
@@ -771,7 +771,7 @@ pub fn reject_proof(handle: u32, connection_handle: u32) -> VcxResult<u32> {
         let new_proof = match proof {
             DisclosedProofs::Pending(ref mut obj) => {
                 // if Aries connection is established --> Convert DisclosedProofs object to Aries presentation
-                if ::connection::is_v3_connection(connection_handle)? {
+                if connection::is_v3_connection(connection_handle)? {
                     let proof_request = obj.proof_request.clone()
                         .ok_or(VcxError::from_msg(VcxErrorKind::InvalidState, "Can not get CredentialOffer of Credential object in Pending state"))?;
 
@@ -819,7 +819,7 @@ pub fn decline_presentation_request(handle: u32, connection_handle: u32, reason:
         let new_proof = match proof {
             DisclosedProofs::Pending(ref mut obj) => {
                 // if Aries connection is established --> Convert DisclosedProofs object to Aries presentation
-                if ::connection::is_v3_connection(connection_handle)? {
+                if connection::is_v3_connection(connection_handle)? {
                     let proof_request = obj.proof_request.clone()
                         .ok_or(VcxError::from_msg(VcxErrorKind::InvalidState, "Can not get CredentialOffer of Credential object in Pending state"))?;
 

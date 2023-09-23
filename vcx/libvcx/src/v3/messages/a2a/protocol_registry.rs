@@ -1,9 +1,9 @@
 use regex::Regex;
 use strum::IntoEnumIterator;
 
-use v3::messages::a2a::message_family::MessageFamilies;
-use v3::messages::discovery::disclose::ProtocolDescriptor;
-use settings::Actors;
+use crate::v3::messages::a2a::message_family::MessageFamilies;
+use crate::v3::messages::discovery::disclose::ProtocolDescriptor;
+use crate::settings::Actors;
 
 pub struct ProtocolRegistry {
     protocols: Vec<ProtocolDescriptor>
@@ -12,7 +12,7 @@ pub struct ProtocolRegistry {
 impl ProtocolRegistry {
     pub fn init() -> ProtocolRegistry {
         let mut registry = ProtocolRegistry { protocols: Vec::new() };
-        let actors = ::settings::get_actors();
+        let actors = crate::settings::get_actors();
 
         for family in MessageFamilies::iter() {
             match family {

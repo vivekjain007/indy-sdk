@@ -1,8 +1,8 @@
-use v3::messages::a2a::{MessageId, A2AMessage};
-use v3::messages::issuance::CredentialPreviewData;
-use v3::messages::mime_type::MimeType;
-use error::VcxResult;
-use messages::thread::Thread;
+use crate::v3::messages::a2a::{MessageId, A2AMessage};
+use crate::v3::messages::issuance::CredentialPreviewData;
+use crate::v3::messages::mime_type::MimeType;
+use crate::error::VcxResult;
+use crate::messages::thread::Thread;
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Clone, Default)]
 pub struct CredentialProposal {

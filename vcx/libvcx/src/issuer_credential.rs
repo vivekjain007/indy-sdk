@@ -1,26 +1,26 @@
 use serde_json;
 
 use std::collections::HashMap;
-use api::VcxStateType;
-use messages;
-use settings;
-use messages::{RemoteMessageType, MessageStatusCode, GeneralMessage};
-use messages::payload::{Payloads, PayloadKinds};
-use messages::thread::Thread;
-use messages::get_message::get_ref_msg;
-use connection;
-use credential_request::CredentialRequest;
-use utils::error;
-use utils::libindy::{payments, anoncreds};
-use utils::constants::CRED_MSG;
-use utils::openssl::encode;
-use utils::libindy::payments::PaymentTxn;
-use utils::qualifier;
-use object_cache::ObjectCache;
-use error::prelude::*;
+use crate::api::VcxStateType;
+use crate::messages;
+use crate::settings;
+use crate::messages::{RemoteMessageType, MessageStatusCode, GeneralMessage};
+use crate::messages::payload::{Payloads, PayloadKinds};
+use crate::messages::thread::Thread;
+use crate::messages::get_message::get_ref_msg;
+use crate::connection;
+use crate::credential_request::CredentialRequest;
+use crate::utils::error;
+use crate::utils::libindy::{payments, anoncreds};
+use crate::utils::constants::CRED_MSG;
+use crate::utils::openssl::encode;
+use crate::utils::libindy::payments::PaymentTxn;
+use crate::utils::qualifier;
+use crate::object_cache::ObjectCache;
+use crate::error::prelude::*;
 
-use v3::handlers::issuance::Issuer;
-use utils::agent_info::{get_agent_info, MyAgentInfo, get_agent_attr};
+use crate::v3::handlers::issuance::Issuer;
+use crate::utils::agent_info::{get_agent_info, MyAgentInfo, get_agent_attr};
 
 lazy_static! {
     static ref ISSUER_CREDENTIAL_MAP: ObjectCache < IssuerCredentials > = Default::default();
@@ -144,10 +144,10 @@ impl IssuerCredential {
         trace!("create >>> cred_def_handle: {}, source_id: {}, issuer_did: {}, credential_name: {}, credential_data: {}, price: {}",
                cred_def_handle, source_id, issuer_did, credential_name, secret!( & credential_data), price);
 
-        let cred_def_id = ::credential_def::get_cred_def_id(cred_def_handle)?;
-        let rev_reg_id = ::credential_def::get_rev_reg_id(cred_def_handle)?;
-        let tails_file = ::credential_def::get_tails_file(cred_def_handle)?;
-        let rev_reg_def_json = ::credential_def::get_rev_reg_def(cred_def_handle)?;
+        let cred_def_id = crate::credential_def::get_cred_def_id(cred_def_handle)?;
+        let rev_reg_id = crate::credential_def::get_rev_reg_id(cred_def_handle)?;
+        let tails_file = crate::credential_def::get_tails_file(cred_def_handle)?;
+        let rev_reg_def_json = crate::credential_def::get_rev_reg_def(cred_def_handle)?;
 
         let mut issuer_credential = IssuerCredential {
             credential_id: source_id.to_string(),
@@ -502,7 +502,7 @@ impl IssuerCredential {
 
     fn generate_payment_info(&mut self) -> VcxResult<Option<PaymentInfo>> {
         if self.price > 0 {
-            let address: String = ::utils::libindy::payments::create_address(None)?;
+            let address: String = crate::utils::libindy::payments::create_address(None)?;
             self.payment_address = Some(address.clone());
             Ok(Some(PaymentInfo {
                 payment_required: "one-time".to_string(),
@@ -756,7 +756,7 @@ pub fn send_credential_offer(handle: u32, connection_handle: u32) -> VcxResult<u
         let new_credential = match credential {
             IssuerCredentials::Pending(ref mut obj) => {
                 // if Aries connection is established --> Convert Pending object to Aries credential
-                if ::connection::is_v3_connection(connection_handle)? {
+                if crate::connection::is_v3_connection(connection_handle)? {
                     let mut issuer = Issuer::create(obj.cred_def_handle, &obj.credential_attributes, &obj.source_id)?;
                     issuer.send_credential_offer(connection_handle)?;
 

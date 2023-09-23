@@ -1,10 +1,10 @@
 use futures::Future;
-use indy::{wallet, ErrorCode};
+use crate::indy::{wallet, ErrorCode};
 
-use settings;
+use crate::settings;
 
-use error::prelude::*;
-use indy::{WalletHandle, INVALID_WALLET_HANDLE};
+use crate::error::prelude::*;
+use crate::indy::{WalletHandle, INVALID_WALLET_HANDLE};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct WalletRecord {

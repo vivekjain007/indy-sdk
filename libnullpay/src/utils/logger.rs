@@ -1,14 +1,14 @@
 extern crate log;
 
 use self::log::LevelFilter;
-use libindy;
+use crate::libindy;
 use libindy::logger::{EnabledCB, LogCB, FlushCB};
 
 use std::ffi::CString;
 use std::ptr;
 use log::{Record, Metadata};
 use libc::c_void;
-use ErrorCode;
+use crate::ErrorCode;
 
 pub struct LibnullpayLogger {
     context: *const c_void,

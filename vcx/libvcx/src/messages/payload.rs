@@ -1,10 +1,10 @@
-use messages::message_type::*;
-use messages::to_u8;
-use messages::get_message::MessagePayload;
-use settings::{ProtocolTypes, get_protocol_type};
-use utils::libindy::crypto;
-use error::prelude::*;
-use messages::thread::Thread;
+use crate::messages::message_type::*;
+use crate::messages::to_u8;
+use crate::messages::get_message::MessagePayload;
+use crate::settings::{ProtocolTypes, get_protocol_type};
+use crate::utils::libindy::crypto;
+use crate::error::prelude::*;
+use crate::messages::thread::Thread;
 use serde_json::Value;
 
 #[derive(Clone, Deserialize, Serialize, Debug, PartialEq)]

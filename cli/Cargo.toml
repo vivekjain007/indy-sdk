@@ -7,7 +7,7 @@ description = """\
 This is the official command line interface for Indy SDK,\
 which provides a distributed-ledger-based foundation for self-sovereign\
 identity."""
-edition = "2018"
+edition = "2021"
 
 [features]
 nullpay_plugin = []

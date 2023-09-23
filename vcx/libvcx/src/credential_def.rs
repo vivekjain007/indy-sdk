@@ -1,13 +1,13 @@
 use serde_json;
 
-use api::PublicEntityStateType;
-use object_cache::ObjectCache;
-use messages::ObjectWithVersion;
-use error::prelude::*;
-use utils::constants::DEFAULT_SERIALIZE_VERSION;
-use utils::libindy::payments::PaymentTxn;
-use utils::libindy::anoncreds;
-use utils::libindy::ledger;
+use crate::api::PublicEntityStateType;
+use crate::object_cache::ObjectCache;
+use crate::messages::ObjectWithVersion;
+use crate::error::prelude::*;
+use crate::utils::constants::DEFAULT_SERIALIZE_VERSION;
+use crate::utils::libindy::payments::PaymentTxn;
+use crate::utils::libindy::anoncreds;
+use crate::utils::libindy::ledger;
 
 lazy_static! {
     static ref CREDENTIALDEF_MAP: ObjectCache<CredentialDef> = Default::default();

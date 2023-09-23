@@ -1,10 +1,10 @@
-use v3::messages::a2a::{MessageId, A2AMessage};
-use v3::messages::attachment::{Attachments, AttachmentId};
-use v3::messages::ack::PleaseAck;
-use error::{VcxError, VcxResult, VcxErrorKind};
-use messages::thread::Thread;
-use issuer_credential::CredentialMessage;
-use messages::payload::PayloadKinds;
+use crate::v3::messages::a2a::{MessageId, A2AMessage};
+use crate::v3::messages::attachment::{Attachments, AttachmentId};
+use crate::v3::messages::ack::PleaseAck;
+use crate::error::{VcxError, VcxResult, VcxErrorKind};
+use crate::messages::thread::Thread;
+use crate::issuer_credential::CredentialMessage;
+use crate::messages::payload::PayloadKinds;
 use std::convert::TryInto;
 
 

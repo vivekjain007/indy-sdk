@@ -5,7 +5,7 @@ use std::collections::HashMap;
 use std::ops::Deref;
 use std::ops::DerefMut;
 
-use error::prelude::*;
+use crate::error::prelude::*;
 
 pub struct ObjectCache<T> {
     pub store: Mutex<HashMap<u32, Mutex<T>>>,

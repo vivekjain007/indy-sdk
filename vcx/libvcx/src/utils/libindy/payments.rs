@@ -1,15 +1,15 @@
 use futures::Future;
-use indy::payments;
+use crate::indy::payments;
 use serde_json::Value;
 
 use std::fmt;
 use std::collections::HashMap;
 
-use utils::libindy::wallet::get_wallet_handle;
-use utils::libindy::ledger::{libindy_submit_request, libindy_sign_and_submit_request, libindy_sign_request, append_txn_author_agreement_to_request, auth_rule};
-use utils::constants::{SUBMIT_SCHEMA_RESPONSE, CREATE_TRANSFER_ACTION};
-use settings;
-use error::prelude::*;
+use crate::utils::libindy::wallet::get_wallet_handle;
+use crate::utils::libindy::ledger::{libindy_submit_request, libindy_sign_and_submit_request, libindy_sign_request, append_txn_author_agreement_to_request, auth_rule};
+use crate::utils::constants::{SUBMIT_SCHEMA_RESPONSE, CREATE_TRANSFER_ACTION};
+use crate::settings;
+use crate::error::prelude::*;
 
 static DEFAULT_FEES: &str = r#"{"0":0, "1":0, "3":0, "100":0, "101":2, "102":42, "103":0, "104":0, "105":0, "107":0, "108":0, "109":0, "110":0, "111":0, "112":0, "113":2, "114":2, "115":0, "116":0, "117":0, "118":0, "119":0, "10001":0}"#;
 
@@ -83,7 +83,7 @@ impl PaymentTxn {
 }
 
 pub fn build_test_address(address: &str) -> String {
-    format!("pay:{}:{}", ::settings::get_payment_method().unwrap_or_default(), address)
+    format!("pay:{}:{}", crate::settings::get_payment_method().unwrap_or_default(), address)
 }
 
 pub fn create_address(seed: Option<String>) -> VcxResult<String> {
@@ -249,7 +249,7 @@ pub fn send_transaction(req: &str, txn_action: (&str, &str, &str, Option<&str>, 
 
     if settings::indy_mocks_enabled() {
         let inputs = vec!["pay:null:9UFgyjuJxi1i1HD".to_string()];
-        let outputs = serde_json::from_str::<Vec<::utils::libindy::payments::Output>>(r#"[{"amount":1,"extra":null,"recipient":"pay:null:xkIsxem0YNtHrRO"}]"#).unwrap();
+        let outputs = serde_json::from_str::<Vec<crate::utils::libindy::payments::Output>>(r#"[{"amount":1,"extra":null,"recipient":"pay:null:xkIsxem0YNtHrRO"}]"#).unwrap();
         return Ok((Some(PaymentTxn::from_parts(inputs, outputs, 1, false)), SUBMIT_SCHEMA_RESPONSE.to_string()));
     }
 
@@ -335,7 +335,7 @@ pub fn pay_a_payee(price: u64, address: &str) -> VcxResult<(PaymentTxn, String)>
 
     let (inputs_json, outputs_json) = _serialize_inputs_and_outputs(&input, &outputs)?;
 
-    let extra = match ::utils::author_agreement::get_txn_author_agreement()? {
+    let extra = match crate::utils::author_agreement::get_txn_author_agreement()? {
         Some(meta) => {
             Some(payments::prepare_extra_with_acceptance_data(None,
                                                               meta.text.as_ref().map(String::as_str),
@@ -406,7 +406,7 @@ fn get_requester_info(requester_info_json: Option<String>) -> VcxResult<String> 
     let role = match settings::get_config_value(settings::CONFIG_SDK_TO_REMOTE_ROLE) {
         Ok(role) => role,
         Err(_) => {
-            let role_ = ::utils::libindy::ledger::get_role(&settings::get_config_value(settings::CONFIG_INSTITUTION_DID)?)?;
+            let role_ = crate::utils::libindy::ledger::get_role(&settings::get_config_value(settings::CONFIG_INSTITUTION_DID)?)?;
             settings::set_config_value(settings::CONFIG_SDK_TO_REMOTE_ROLE, &role_);
             role_
         }
@@ -507,12 +507,12 @@ pub fn mint_tokens_and_set_fees(number_of_addresses: Option<u32>, tokens_per_add
         let outputs = serde_json::to_string(&mint).unwrap();
         let (req, _) = payments::build_mint_req(get_wallet_handle(), Some(&did_1), &outputs, None).wait().unwrap();
 
-        let sign1 = ::utils::libindy::ledger::multisign_request(&did_1, &req).unwrap();
-        let sign2 = ::utils::libindy::ledger::multisign_request(&did_2, &sign1).unwrap();
-        let sign3 = ::utils::libindy::ledger::multisign_request(&did_3, &sign2).unwrap();
-        let sign4 = ::utils::libindy::ledger::multisign_request(&did_4, &sign3).unwrap();
+        let sign1 = crate::utils::libindy::ledger::multisign_request(&did_1, &req).unwrap();
+        let sign2 = crate::utils::libindy::ledger::multisign_request(&did_2, &sign1).unwrap();
+        let sign3 = crate::utils::libindy::ledger::multisign_request(&did_3, &sign2).unwrap();
+        let sign4 = crate::utils::libindy::ledger::multisign_request(&did_4, &sign3).unwrap();
 
-        match ::utils::libindy::ledger::libindy_submit_request(&sign4) {
+        match crate::utils::libindy::ledger::libindy_submit_request(&sign4) {
             Ok(_) => (),
             Err(x) => println!("failure minting tokens: {}", x),
         };
@@ -522,12 +522,12 @@ pub fn mint_tokens_and_set_fees(number_of_addresses: Option<u32>, tokens_per_add
         let txn = payments::build_set_txn_fees_req(get_wallet_handle(), Some(&did_1), settings::get_payment_method()?.as_str(), fees_)
             .wait()?;
 
-        let sign1 = ::utils::libindy::ledger::multisign_request(&did_1, &txn).unwrap();
-        let sign2 = ::utils::libindy::ledger::multisign_request(&did_2, &sign1).unwrap();
-        let sign3 = ::utils::libindy::ledger::multisign_request(&did_3, &sign2).unwrap();
-        let sign4 = ::utils::libindy::ledger::multisign_request(&did_4, &sign3).unwrap();
+        let sign1 = crate::utils::libindy::ledger::multisign_request(&did_1, &txn).unwrap();
+        let sign2 = crate::utils::libindy::ledger::multisign_request(&did_2, &sign1).unwrap();
+        let sign3 = crate::utils::libindy::ledger::multisign_request(&did_3, &sign2).unwrap();
+        let sign4 = crate::utils::libindy::ledger::multisign_request(&did_4, &sign3).unwrap();
 
-        ::utils::libindy::ledger::libindy_submit_request(&sign4).unwrap();
+        crate::utils::libindy::ledger::libindy_submit_request(&sign4).unwrap();
 
         let txn_fees: HashMap<String, String> =
             ::serde_json::from_str::<HashMap<String, u64>>(fees_).unwrap()
@@ -542,23 +542,23 @@ pub fn mint_tokens_and_set_fees(number_of_addresses: Option<u32>, tokens_per_add
 }
 
 pub fn add_new_did(role: Option<&str>) -> (String, String) {
-    use indy::ledger;
+    use crate::indy::ledger;
 
-    let institution_did = settings::get_config_value(settings::CONFIG_INSTITUTION_DID).unwrap();
+    let institution_did = settings::get_config_value(crate::settings::CONFIG_INSTITUTION_DID).unwrap();
 
-    let (did, verkey) = ::utils::libindy::signus::create_and_store_my_did(None, None).unwrap();
+    let (did, verkey) = crate::utils::libindy::signus::create_and_store_my_did(None, None).unwrap();
     let mut req_nym = ledger::build_nym_request(&institution_did, &did, Some(&verkey), None, role).wait().unwrap();
 
     req_nym = append_txn_author_agreement_to_request(&req_nym).unwrap();
 
-    ::utils::libindy::ledger::libindy_sign_and_submit_request(&institution_did, &req_nym).unwrap();
+    crate::utils::libindy::ledger::libindy_sign_and_submit_request(&institution_did, &req_nym).unwrap();
     (did, verkey)
 }
 
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    use utils::devsetup::*;
+    use crate::utils::devsetup::*;
 
     static ZERO_FEES: &str = r#"{"0":0, "1":0, "101":0, "10001":0, "102":0, "103":0, "104":0, "105":0, "107":0, "108":0, "109":0, "110":0, "111":0, "112":0, "113":0, "114":0, "115":0, "116":0, "117":0, "118":0, "119":0}"#;
 

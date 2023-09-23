@@ -1,5 +1,5 @@
 use serde_json::{Value, from_str, Map};
-use ErrorCode;
+use crate::ErrorCode;
 
 pub fn parse_operation_from_request (req: &str) -> Result<String, ErrorCode> {
     let val = str_to_val(req)?;

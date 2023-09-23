@@ -1,13 +1,13 @@
 use serde_json;
 use libc::c_char;
-use utils::cstring::CStringUtils;
-use utils::error;
-use connection;
-use credential;
+use crate::utils::cstring::CStringUtils;
+use crate::utils::error;
+use crate::connection;
+use crate::credential;
 use std::ptr;
-use utils::threadpool::spawn;
-use error::prelude::*;
-use indy_sys::CommandHandle;
+use crate::utils::threadpool::spawn;
+use crate::error::prelude::*;
+use crate::indy_sys::CommandHandle;
 
 /*
     The API represents a Holder side in credential issuance process.

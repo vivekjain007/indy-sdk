@@ -14,8 +14,8 @@ pub mod payload;
 pub mod thread;
 
 use std::u8;
-use settings;
-use utils::libindy::crypto;
+use crate::settings;
+use crate::utils::libindy::crypto;
 use self::create_key::{CreateKeyBuilder, CreateKey, CreateKeyResponse};
 use self::update_connection::{DeleteConnectionBuilder, UpdateConnection, UpdateConnectionResponse};
 use self::update_profile::{UpdateProfileDataBuilder, UpdateConfigs, UpdateConfigsResponse};
@@ -30,11 +30,11 @@ use self::update_message::{UpdateMessageStatusByConnections, UpdateMessageStatus
 use self::proofs::proof_request::ProofRequestMessage;
 use self::agent_utils::{Connect, ConnectResponse, SignUp, SignUpResponse, CreateAgent, CreateAgentResponse, UpdateComMethod, ComMethodUpdated};
 use self::message_type::*;
-use error::prelude::*;
+use crate::error::prelude::*;
 
 use serde::{de, Deserialize, Deserializer, ser, Serialize, Serializer};
 use serde_json::Value;
-use settings::ProtocolTypes;
+use crate::settings::ProtocolTypes;
 
 #[derive(Debug, Serialize)]
 #[serde(untagged)]
